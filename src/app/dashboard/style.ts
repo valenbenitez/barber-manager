@@ -65,3 +65,13 @@ export const Label = styled.label`
   font-family: Montserrat;
   font-size: 12px;
 `
+export const ClientsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  @media (max-width: 1199px) {
+    flex-direction: column;
+  }
+`

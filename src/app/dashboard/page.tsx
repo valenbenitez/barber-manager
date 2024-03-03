@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useUser } from "@/hooks/useUser";
 import { User } from "@/models/user";
+import ClientCard from "@/components/ClientCard/ClientCard";
 
 function Dashboard() {
   const [clients, setClients] = useState<User[]>([]);
@@ -20,23 +21,17 @@ function Dashboard() {
     }
   }, []);
 
-  function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
-    const milliseconds = Math.floor(nanoseconds / 1e6); // Convertir nanosegundos a milisegundos
-    const date = new Date(seconds * 1000 + milliseconds);
-    return date.toLocaleString(); // Puedes utilizar otras opciones de formato según tus necesidades
-  }
-
   return (
-    <div>
+    <div style={{ padding: '8px' }} >
       <Styled.Container>
         <Styled.ColumnContainer>
           <Styled.ItemContainer>
             <Styled.StartContainer>
               <Styled.Title>Cortes diarios:</Styled.Title>
             </Styled.StartContainer>
-            <Styled.Title>17</Styled.Title>
+            <Styled.Title>0</Styled.Title>
             <Styled.RowContainer>
-              <Link legacyBehavior href={"/registrar-cliente"}>
+              <Link legacyBehavior href={"/registrar-barbero"}>
                 <Styled.ColumnContainer>
                   <Fab size="small" sx={SectionButtons}>
                     <Image
@@ -46,7 +41,7 @@ function Dashboard() {
                       width={20}
                     />
                   </Fab>
-                  <Styled.Label>Registrar cliente</Styled.Label>
+                  <Styled.Label>Registrar barbero</Styled.Label>
                 </Styled.ColumnContainer>
               </Link>
               <Link legacyBehavior href={"/registrar-corte"}>
@@ -80,24 +75,27 @@ function Dashboard() {
           <br />
           <Styled.ItemContainer>
             <Styled.StartContainer>
+              <Styled.Title>Cortes actuales:</Styled.Title>
+            </Styled.StartContainer>
+          </Styled.ItemContainer>
+          <br />
+          <Styled.ItemContainer>
+            <Styled.StartContainer>
               <Styled.Title>Ultimos clientes:</Styled.Title>
             </Styled.StartContainer>
-            {clients?.length &&
-              clients.map((client: any) => (
-                <>
-                  <label>{client?.name}</label>
-                  <label>
-                    {formatSecondsAndNanosecondsToDate(
-                      client.createdAt?.seconds,
-                      client.createdAt?.nanoseconds,
-                    )}
-                  </label>
-                  <label>{}</label>
-                </>
-              ))}
+            <Styled.ClientsContainer>
+              {clients?.length &&
+                clients.map((client: any) => (
+                  <ClientCard client={client} />
+                ))}
+            </Styled.ClientsContainer>
           </Styled.ItemContainer>
         </Styled.ColumnContainer>
       </Styled.Container>
+      <br />
+      <br />
+      <br />
+      <br />
       <NavBar />
     </div>
   );
