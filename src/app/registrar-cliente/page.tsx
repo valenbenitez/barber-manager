@@ -33,7 +33,6 @@ export default function RegisterClient() {
             id: id,
             email: ''
         })
-        console.log(newUser)
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
         return newUser

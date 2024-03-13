@@ -11,7 +11,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import React, { createContext, useContext, useState } from 'react';
-import { User as FirebaseUser } from 'firebase/auth';
 import { User } from '../models/user';
 
 const UserContext = createContext<any>({});
@@ -77,6 +76,21 @@ export const useUserProvider = () => {
             console.error('Error fetching users:', error);
         }
 
+        return users;
+    };
+
+    const getBarbers = async (): Promise<User[]> => {
+        const users: User[] = [];
+        const usersQuery = query(collection(db, 'users'), where('role', '==', 'barber'));
+        try {
+            const querySnapshot = await getDocs(usersQuery);
+            querySnapshot.forEach((doc) => {
+                const userData = doc.data() as User;
+                users.push(userData);
+            });
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
         return users;
     };
 
@@ -146,6 +160,7 @@ export const useUserProvider = () => {
         updateUser,
         isOperator,
         addFieldToUsersCollection,
-        getUsersByRole
+        getUsersByRole,
+        getBarbers
     };
 };

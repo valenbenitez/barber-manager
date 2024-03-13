@@ -25,6 +25,21 @@ export const useCortes = () => {
 
 export const useCortesProvider = () => {
 
+    const getCortes = async () => {
+        const cortes: any = [];
+        const q = query(collection(db, 'cortes'));
+        try {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const userData = doc.data();
+                cortes.push(userData);
+            });
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+        return cortes;
+    }
+
     const createCorte = async (corte: any) => {
         return setDoc(doc(db, 'cortes', corte.id), corte)
             .then(() => {
@@ -55,6 +70,7 @@ export const useCortesProvider = () => {
     return {
         createCorte,
         getCorteById,
-        updateCorte
+        updateCorte,
+        getCortes,
     }
 }
