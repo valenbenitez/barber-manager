@@ -13,7 +13,7 @@ export const ItemContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   border: 1px solid #ffffff80;
-  padding: 32px 24px 32px 24px;
+  padding: 16px;
   gap: 24px;
   border-radius: 24px;
   background-color: #bdd1de;

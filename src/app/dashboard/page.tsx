@@ -1,14 +1,13 @@
 'use client'
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
-import ClientCard from "@/components/ClientCard/ClientCard";
-import { Container, ColumnContainer, ItemContainer, StartContainer, Title, RowContainer, Label, ClientsContainer } from "./style";
+import { Container, ColumnContainer, ItemContainer, StartContainer, Title, RowContainer, Label } from "./style";
 import { Fab } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "@/components/NavBar/NavBar";
-import { User } from "@/models/user";
 import { useCortes } from "@/hooks/useCortes";
+import ShaveCard from "@/components/ShaveCard/ShaveCard";
 
 const buttons = [
   { path: '/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
@@ -18,13 +17,7 @@ const buttons = [
 
 function Dashboard() {
   const [clients, setClients] = useState([]);
-  const [cortes, setCortes] = useState([]);
   const { getUsersByRole } = useUser();
-  const { getCortes } = useCortes();
-
-  useEffect(() => {
-    fetchCortes()
-  }, [])
 
   useEffect(() => {
     if (clients.length === 0) {
@@ -35,11 +28,6 @@ function Dashboard() {
       });
     }
   }, [clients, getUsersByRole]);
-
-  const fetchCortes = async () => {
-    const cortes = await getCortes();
-    setCortes(cortes)
-  }
 
   return (
     <div style={{ padding: '8px' }}>
@@ -60,24 +48,9 @@ function Dashboard() {
           </ItemContainer>
           <br />
           <ItemContainer>
-            <StartContainer>
-              <Title>Cortes actuales:</Title>
-            </StartContainer>
-            {Array.isArray(cortes) && cortes.map((corte: any) => (
-              <>{corte.barberName}</>
-            ))}
+            <ShaveCard />
           </ItemContainer>
           <br />
-          <ItemContainer>
-            <StartContainer>
-              <Title>Ultimos clientes:</Title>
-            </StartContainer>
-            <ClientsContainer>
-              {clients.length > 0 && clients.map((client: User) => (
-                <ClientCard key={client?.id} client={client} />
-              ))}
-            </ClientsContainer>
-          </ItemContainer>
         </ColumnContainer>
       </Container>
       <br />
@@ -102,5 +75,17 @@ const SectionButtons = {
   backgroundColor: "#fff",
   boxShadow: "none",
 };
+
+{/* SECCION ULTIMOS CLIENTES */ }
+{/* <ItemContainer>
+            <StartContainer>
+              <Title>Ultimos clientes:</Title>
+            </StartContainer>
+            <ClientsContainer>
+              {clients.length > 0 && clients.map((client: User) => (
+                <ClientCard key={client?.id} client={client} />
+              ))}
+            </ClientsContainer>
+          </ItemContainer> */}
 
 export default Dashboard;
