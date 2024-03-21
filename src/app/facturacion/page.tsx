@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 
-function page() {
+export default function Facturacion() {
     const [isLoading, setIsLoading] = useState(true);
     const { createUser, isOwner, getUser } = useUser();
     const { authState } = useAuth();
@@ -38,5 +38,3 @@ function page() {
         <div>page</div>
     )
 }
-
-export default page
