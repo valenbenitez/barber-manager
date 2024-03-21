@@ -70,7 +70,7 @@ export default function RegistrarCorte() {
                         <Styled.FormSelect onChange={handleChangeBarber}>
                             <Styled.Option>Seleccionar barbero</Styled.Option>
                             {barbers?.length && barbers.map(barber => (
-                                <Styled.Option value={barber.name} key={barber.id} >{barber.name}</Styled.Option>
+                                <Styled.Option value={barber.name} key={barber.phone} >{barber.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
                         <Styled.InputLogin

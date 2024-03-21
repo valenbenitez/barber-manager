@@ -6,8 +6,8 @@ import { Fab } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "@/components/NavBar/NavBar";
-import { useCortes } from "@/hooks/useCortes";
 import ShaveCard from "@/components/ShaveCard/ShaveCard";
+import { useAuth } from "@/hooks/useAuth";
 
 const buttons = [
   { path: '/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
@@ -17,17 +17,23 @@ const buttons = [
 
 function Dashboard() {
   const [clients, setClients] = useState([]);
-  const { getUsersByRole } = useUser();
+  const { getUser, getUsersByRole } = useUser();
+  const { authState } = useAuth();
 
   useEffect(() => {
     if (clients.length === 0) {
       getUsersByRole().then((result) => {
+        fetchUser()
         setClients(result);
       }).catch((error) => {
         console.error("Error fetching clients:", error);
       });
     }
   }, [clients, getUsersByRole]);
+
+  const fetchUser = async () => {
+    await getUser(authState?.user?.id)
+  }
 
   return (
     <div style={{ padding: '8px' }}>
@@ -40,15 +46,28 @@ function Dashboard() {
             <Title>0</Title>
             <RowContainer>
               {buttons?.length && buttons.map(button => (
-                <Link legacyBehavior href={button.path}>
-                  <ItemColumn icon={button.icon} label={button.label} />
+                <Link legacyBehavior href={button.path} key={button.path}>
+                  <a href={button.path} key={button.path} style={{ textDecoration: 'none', color: '#000' }} >
+                    <ItemColumn icon={button.icon} label={button.label} />
+                  </a>
                 </Link>
               ))}
             </RowContainer>
           </ItemContainer>
           <br />
           <ItemContainer>
-            <ShaveCard />
+            <StartContainer>
+              <label>Cortes en espera:</label>
+            </StartContainer>
+            <ShaveCard status="En espera" />
+            <StartContainer>
+              <label>Cortes en proceso:</label>
+            </StartContainer>
+            <ShaveCard status="En proceso" />
+            <StartContainer>
+              <label>Cortes terminados:</label>
+            </StartContainer>
+            <ShaveCard status="Terminado" />
           </ItemContainer>
           <br />
         </ColumnContainer>

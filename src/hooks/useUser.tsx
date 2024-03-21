@@ -131,7 +131,7 @@ export const useUserProvider = () => {
         }
     };
 
-    const isOperator = user?.role === 'operator';
+    const isOwner = user?.role === 'owner';
 
     const addFieldToUsersCollection = async () => {
         const usersCollectionRef = collection(db, 'users');
@@ -158,7 +158,7 @@ export const useUserProvider = () => {
         getUserByEmail,
         createUser,
         updateUser,
-        isOperator,
+        isOwner,
         addFieldToUsersCollection,
         getUsersByRole,
         getBarbers

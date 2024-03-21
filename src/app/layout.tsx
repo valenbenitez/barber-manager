@@ -1,16 +1,13 @@
+'use client'
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/hooks/useAuth";
 import { UserProvider } from "@/hooks/useUser";
 import { CortesProvider } from "@/hooks/useCortes";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Barber App",
-  description: "Developed and designed by benitezvalentin046@gmail.com",
-};
 
 export default function RootLayout({
   children,
@@ -26,13 +23,15 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <UserProvider>
-          <AuthProvider>
-            <CortesProvider>
-              {children}
-            </CortesProvider>
-          </AuthProvider>
-        </UserProvider>
+        <SessionProvider>
+          <UserProvider>
+            <AuthProvider>
+              <CortesProvider>
+                {children}
+              </CortesProvider>
+            </AuthProvider>
+          </UserProvider>
+        </SessionProvider>
       </body>
     </html>
   );

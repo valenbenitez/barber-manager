@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 import DataTable from 'react-data-table-component';
 import { useCortes } from '@/hooks/useCortes';
+import SimpleSnackbar from '../SimpleSnackbar/SimpleSnackbar';
 
 function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
     const milliseconds = Math.floor(nanoseconds / 1e6); // Convertir nanosegundos a milisegundos
@@ -12,6 +13,7 @@ function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
 // A super simple expandable component.
 const ExpandedComponent = ({ data }) => {
     const [amount, setAmount] = useState(0)
+    const [error, setError] = useState(false)
     const { updateCorte } = useCortes();
 
     async function handleCorteInProcess() {
@@ -19,8 +21,12 @@ const ExpandedComponent = ({ data }) => {
     }
 
     async function handleFinally() {
-        setAmount(0)
-        await updateCorte(data.id, { completedDate: new Date(), status: 'Terminado', price: amount })
+        if (amount === 0 || !amount) {
+            setError(true)
+        } else {
+            setAmount(0)
+            await updateCorte(data.id, { completedDate: new Date(), status: 'Terminado', price: amount })
+        }
     }
 
     function handleChange(event) {
@@ -29,12 +35,21 @@ const ExpandedComponent = ({ data }) => {
 
     return (
         <>
-            <Styled.StartContainer>
-                <pre>{JSON.stringify(data.id, null, 2)}</pre>
-                <button onClick={handleCorteInProcess}>En proceso</button>
-                <input type='number' placeholder='Precio final cobrado al cliente' onChange={handleChange} value={amount}></input>
-                <button onClick={handleFinally} >Finalizar y cobrar</button>
-            </Styled.StartContainer>
+            {data?.status === 'En proceso' || data?.status === 'En espera' ? (
+                <Styled.StartContainer>
+                    <pre>{JSON.stringify(data.id, null, 2)}</pre>
+                    <button onClick={handleCorteInProcess}>En proceso</button>
+                    <input type='number' placeholder='Precio final cobrado al cliente' onChange={handleChange} value={amount}></input>
+                    <button onClick={handleFinally} >Finalizar y cobrar</button>
+                </Styled.StartContainer>
+            ) : (
+                <Styled.StartContainer>
+                    <label>Precio cobrado: ${data?.price}</label> <br />
+                    <label>Contacto cliente: {data?.clientPhone}</label>
+                </Styled.StartContainer>
+            )}
+
+            <SimpleSnackbar open={error} setOpen={setError} severity='error' title='Porfavor introduce el monto cobrado' key={data.id} />
         </>
     )
 }
@@ -58,7 +73,11 @@ const columns = [
     },
 ];
 
-function ShaveCard() {
+interface ShaveCardProps {
+    status: 'Terminado' | 'En proceso' | 'En espera'
+}
+
+function ShaveCard({ status }: ShaveCardProps) {
     const [cortes, setCortes] = useState([]);
     const { getCortes } = useCortes();
 
@@ -69,7 +88,8 @@ function ShaveCard() {
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS
         const cortes = await getCortes();
-        setCortes(cortes)
+        const filteredCortes = cortes.filter(corte => corte.status === status)
+        setCortes(filteredCortes)
     }
 
     return (
@@ -78,6 +98,7 @@ function ShaveCard() {
             data={cortes}
             expandableRows
             expandableRowsComponent={ExpandedComponent}
+            pagination
         />
     )
 }
