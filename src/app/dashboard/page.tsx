@@ -8,17 +8,19 @@ import Link from "next/link";
 import NavBar from "@/components/NavBar/NavBar";
 import ShaveCard from "@/components/ShaveCard/ShaveCard";
 import { useAuth } from "@/hooks/useAuth";
+import withAuth from "@/components/WithAuth";
 
 const buttons = [
-  { path: '/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
-  { path: '/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
-  { path: '/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' }
+  { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
+  { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
+  { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
+  { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
 ]
 
 function Dashboard() {
   const [clients, setClients] = useState([]);
   const { getUser, getUsersByRole } = useUser();
-  const { authState } = useAuth();
+  const { authState, signOutUser } = useAuth();
 
   useEffect(() => {
     if (clients.length === 0) {
@@ -44,6 +46,7 @@ function Dashboard() {
               <Title>Cortes diarios:</Title>
             </StartContainer>
             <Title>0</Title>
+            <button onClick={signOutUser}>Cerrar sesion</button>
             <RowContainer>
               {buttons?.length && buttons.map(button => (
                 <Link legacyBehavior href={button.path} key={button.path}>
@@ -95,16 +98,4 @@ const SectionButtons = {
   boxShadow: "none",
 };
 
-{/* SECCION ULTIMOS CLIENTES */ }
-{/* <ItemContainer>
-            <StartContainer>
-              <Title>Ultimos clientes:</Title>
-            </StartContainer>
-            <ClientsContainer>
-              {clients.length > 0 && clients.map((client: User) => (
-                <ClientCard key={client?.id} client={client} />
-              ))}
-            </ClientsContainer>
-          </ItemContainer> */}
-
-export default Dashboard;
+export default withAuth(Dashboard);

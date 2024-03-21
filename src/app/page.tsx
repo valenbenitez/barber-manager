@@ -1,10 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react';
 import * as Styled from './style'
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/config/firebase';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import Image from 'next/image';
 
 export default function Home() {
   const [state, setState] = useState({
@@ -40,6 +39,7 @@ export default function Home() {
   return (
     <Styled.Container>
       <Styled.ItemContainer>
+        <Image src={'/logo.jpeg'} width={140} height={140} alt='icon-img' />
         <Styled.Title>Bienvenido</Styled.Title>
         <Styled.InputLogin
           name='email'

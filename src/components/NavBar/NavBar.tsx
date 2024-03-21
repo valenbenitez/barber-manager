@@ -38,7 +38,7 @@ function NavBar() {
                             }
                         />
                     </Link>
-                    <Link legacyBehavior href={'/facturacion'}>
+                    <Link legacyBehavior href={'/dashboard/facturacion'}>
                         <BottomNavigationAction
                             showLabel
                             label={<label style={labelStyle}>Facturacion</label>}
@@ -52,7 +52,7 @@ function NavBar() {
                             }
                         />
                     </Link>
-                    <Link id="exchange_money_02" legacyBehavior href={'/registrar-corte'}>
+                    <Link id="exchange_money_02" legacyBehavior href={'/dashboard/registrar-corte'}>
                         <BottomNavigationAction
                             icon={
                                 <Image
@@ -76,7 +76,7 @@ function NavBar() {
                         label={<label style={labelStyle}>Nuevo corte</label>}
                         sx={{ marginTop: '18px' }}
                     />
-                    <Link legacyBehavior href={'/barberos'}>
+                    <Link legacyBehavior href={'/dashboard/barberos'}>
                         <BottomNavigationAction
                             showLabel
                             label={<label style={labelStyle}>Barberos</label>}
@@ -91,7 +91,7 @@ function NavBar() {
                         />
                     </Link>
 
-                    <Link legacyBehavior href={'/products'}>
+                    <Link legacyBehavior href={'/dashboard/products'}>
                         <BottomNavigationAction
                             showLabel
                             label={<label style={labelStyle}>Productos</label>}

@@ -94,6 +94,20 @@ export const useUserProvider = () => {
         return users;
     };
 
+    const getClients = async (): Promise<User[]> => {
+        const users: User[] = [];
+        const usersQuery = query(collection(db, 'users'), where('role', '==', 'client'));
+        try {
+            const querySnapshot = await getDocs(usersQuery);
+            querySnapshot.forEach((doc) => {
+                const userData = doc.data() as User;
+                users.push(userData);
+            });
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+        return users;
+    };
 
     const updateUser = async (userId: string, data: User): Promise<void> => {
         console.log({ userId, data });
@@ -161,6 +175,7 @@ export const useUserProvider = () => {
         isOwner,
         addFieldToUsersCollection,
         getUsersByRole,
-        getBarbers
+        getBarbers,
+        getClients
     };
 };

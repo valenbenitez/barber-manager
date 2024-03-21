@@ -1,4 +1,3 @@
-'use client'
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -8,6 +7,11 @@ import { CortesProvider } from "@/hooks/useCortes";
 import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: 'Salt-Light',
+  description: 'Aplicacion desarrollada para el manejo de Salt-Light',
+}
 
 export default function RootLayout({
   children,
@@ -23,15 +27,13 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <SessionProvider>
-          <UserProvider>
-            <AuthProvider>
-              <CortesProvider>
-                {children}
-              </CortesProvider>
-            </AuthProvider>
-          </UserProvider>
-        </SessionProvider>
+        <UserProvider>
+          <AuthProvider>
+            <CortesProvider>
+              {children}
+            </CortesProvider>
+          </AuthProvider>
+        </UserProvider>
       </body>
     </html>
   );
