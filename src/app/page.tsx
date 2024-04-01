@@ -37,22 +37,24 @@ export default function Home() {
   }
 
   return (
-    <Styled.Container>
-      <Styled.ItemContainer>
+    <Styled.Container className='LoginContainer' >
+      <Styled.ItemContainer className='ItemContainer' >
         <Image src={'/logo.jpeg'} width={140} height={140} alt='icon-img' />
-        <Styled.Title>Bienvenido</Styled.Title>
+        <Styled.Title className='Title' >Bienvenido</Styled.Title>
         <Styled.InputLogin
           name='email'
           placeholder='Correo'
           onChange={handleChange}
+          className='InputContainer'
         />
         <Styled.InputLogin
           name='password'
           type='password'
           placeholder='Contrasena'
           onChange={handleChange}
+          className='InputContainer'
         />
-        <Styled.SubmitButton onClick={handleSignIn}>
+        <Styled.SubmitButton onClick={handleSignIn} className='SubmitButton'>
           Iniciar Sesion
         </Styled.SubmitButton>
       </Styled.ItemContainer>

@@ -75,3 +75,60 @@ a {
     color-scheme: dark;
   }
 } */
+
+.LoginContainer {
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.ItemContainer {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid #ffffff80;
+  background-color: #e4ebf0;
+  padding: 32px 24px 32px 24px;
+  gap: 24px;
+}
+
+.InputContainer {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #ffffff80;
+  border: none;
+  padding: 14px;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  outline: none;
+}
+
+.SubmitButton {
+  width: 60%;
+  height: 56px;
+  padding: 16px, 24px, 16px, 24px;
+  border-radius: 16px;
+  gap: 8px;
+  border: none;
+  background-color: #bdd1de;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Title {
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: center;
+}
