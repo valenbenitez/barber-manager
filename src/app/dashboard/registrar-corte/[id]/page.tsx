@@ -103,7 +103,7 @@ export default function RegistrarCorte() {
                         </Styled.FormSelect>
                         <div style={{ display: 'flex', gap: '20px' }}>
                             {extrasSelected?.length > 0 && extrasSelected.map(extra => (
-                                <div style={{ gap: '3px' }}>
+                                <div style={{ gap: '3px' }} key={extra}>
                                     <button onClick={() => handleRemoveExtra(extra)} >X</button><label>{extra}</label>
                                 </div>
                             ))}
