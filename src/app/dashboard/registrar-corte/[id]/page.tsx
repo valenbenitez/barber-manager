@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import * as Styled from "./style";
+import * as Styled from "../style";
 import { useUser } from "@/hooks/useUser";
 import { v4 as uuidv4 } from 'uuid';
 import SimpleSnackbar from "@/components/SimpleSnackbar/SimpleSnackbar";
 import NavBar from "@/components/NavBar/NavBar";
 import { User } from "@/models/user";
 import { useCortes } from "@/hooks/useCortes";
-import { extras, initialNewClient, services } from "./constants";
+import { extras, initialNewClient, services } from "../constants";
 import { useParams } from 'next/navigation'
 
 export default function RegistrarCorte() {
@@ -17,13 +17,18 @@ export default function RegistrarCorte() {
     const [service, setService] = useState('')
     const [extrasSelected, setExtrasSelected] = useState<any>([])
     const [barberSelected, setBarberSelected] = useState<User[]>([])
-    const { createUser, getBarbers } = useUser();
+    const { createUser, getBarbers, getUserById } = useUser();
     const { createCorte } = useCortes();
-    const params = useParams()
+    const { id } = useParams()
 
     useEffect(() => {
-        console.log(params)
         fetchBarbers()
+        getUserById(id).then(result => {
+            setNewClient({
+                name: result.name,
+                phone: result.phone
+            })
+        })
     }, [])
 
     const handleChange = (event) => {
@@ -58,14 +63,6 @@ export default function RegistrarCorte() {
     const handleSubmit = async () => {
         const id = uuidv4();
         const corteId = uuidv4();
-        const newUser = await createUser({
-            createdAt: new Date(),
-            role: 'client',
-            name: newClient.name,
-            phone: newClient.phone,
-            id: id,
-            email: ''
-        })
         const newCorte = await createCorte({
             barberName: barberSelected,
             createdDate: new Date(),
@@ -79,7 +76,7 @@ export default function RegistrarCorte() {
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
-        return newUser
+        return newCorte
     }
     return (
         <>

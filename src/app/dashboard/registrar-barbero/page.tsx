@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 const initialNewClient = {
     name: "",
     phone: "",
+    email: ""
 };
 
 export default function RegisterBarber() {
@@ -77,6 +78,12 @@ export default function RegisterBarber() {
                             placeholder="Nombre"
                             name="name"
                             value={newClient.name}
+                            onChange={handleChange}
+                        />
+                        <Styled.InputLogin
+                            placeholder="Email"
+                            name="email"
+                            value={newClient.email}
                             onChange={handleChange}
                         />
                         <Styled.InputLogin

@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import withAuth from "@/components/WithAuth";
 
 const buttons = [
-  { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
+  // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
   { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
   { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
   { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
