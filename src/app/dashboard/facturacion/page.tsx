@@ -8,15 +8,17 @@ import * as Styled from './style'
 
 export default function Facturacion() {
     const [isLoading, setIsLoading] = useState(true);
+    const [firstTime, setFirstTime] = useState(true)
     const { createUser, isOwner, getUser } = useUser();
     const { authState } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-        fetchUser()
+        firstTime && fetchUser()
     }, [])
 
     const fetchUser = () => {
+        setFirstTime(false)
         getUser(authState?.user?.id).then((user) => {
             if (user?.role !== 'owner') {
                 router.push('/dashboard')

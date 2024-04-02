@@ -21,12 +21,14 @@ function Dashboard() {
   const [clients, setClients] = useState([]);
   const { getUser, getUsersByRole } = useUser();
   const { authState, signOutUser } = useAuth();
+  const [firstTime, setFirstTime] = useState(true)
 
   useEffect(() => {
-    if (clients.length === 0) {
+    if (clients.length === 0 && firstTime) {
       getUsersByRole().then((result) => {
         fetchUser()
         setClients(result);
+        setFirstTime(false)
       }).catch((error) => {
         console.error("Error fetching clients:", error);
       });

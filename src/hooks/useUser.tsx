@@ -65,7 +65,6 @@ export const useUserProvider = () => {
     const getUsersByRole = async (): Promise<User[]> => {
         const users: User[] = [];
         const usersQuery = query(collection(db, 'users'), where('role', '==', 'client'));
-
         try {
             const querySnapshot = await getDocs(usersQuery);
             querySnapshot.forEach((doc) => {

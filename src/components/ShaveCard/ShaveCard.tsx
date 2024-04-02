@@ -80,16 +80,19 @@ interface ShaveCardProps {
 function ShaveCard({ status }: ShaveCardProps) {
     const [cortes, setCortes] = useState([]);
     const { getCortes } = useCortes();
+    const [firstTime, setFirstTime] = useState(true)
+
 
     useEffect(() => {
-        fetchCortes()
-    }, [cortes])
+        firstTime && fetchCortes();
+    }, [])
 
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS
         const cortes = await getCortes();
         const filteredCortes = cortes.filter(corte => corte.status === status)
         setCortes(filteredCortes)
+        setFirstTime(false)
     }
 
     return (

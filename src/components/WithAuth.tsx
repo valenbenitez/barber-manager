@@ -17,10 +17,14 @@ const withAuth = (WrappedComponent) => {
                 router.push('/');
             } else {
                 if (!user) {
-                    getUser(authState?.user.id);
+                    fetchUser(authState?.user.id);
                 }
             }
         }, [authState, router]);
+
+        const fetchUser = async (id) => {
+            await getUser(id)
+        }
 
         return (
             <NoSsr>
