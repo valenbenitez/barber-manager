@@ -3,8 +3,11 @@ import style from './navbar.module.css'
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useUser } from '@/hooks/useUser';
 
 function NavBar() {
+    const { user } = useUser();
+
     return (
         <div
             style={{
@@ -38,20 +41,22 @@ function NavBar() {
                             }
                         />
                     </Link>
-                    <Link legacyBehavior href={'/dashboard/facturacion'}>
-                        <BottomNavigationAction
-                            showLabel
-                            label={<label style={labelStyle}>Facturacion</label>}
-                            icon={
-                                <Image
-                                    alt=""
-                                    src={'/navbar-icons/money.svg'}
-                                    width={24}
-                                    height={24}
-                                />
-                            }
-                        />
-                    </Link>
+                    {user?.role === 'owner' && (
+                        <Link legacyBehavior href={'/dashboard/facturacion'}>
+                            <BottomNavigationAction
+                                showLabel
+                                label={<label style={labelStyle}>Facturacion</label>}
+                                icon={
+                                    <Image
+                                        alt=""
+                                        src={'/navbar-icons/money.svg'}
+                                        width={24}
+                                        height={24}
+                                    />
+                                }
+                            />
+                        </Link>
+                    )}
                     <Link id="exchange_money_02" legacyBehavior href={'/dashboard/registrar-corte'}>
                         <BottomNavigationAction
                             icon={
@@ -76,21 +81,22 @@ function NavBar() {
                         label={<label style={labelStyle}>Nuevo corte</label>}
                         sx={{ marginTop: '18px' }}
                     />
-                    <Link legacyBehavior href={'/dashboard/barberos'}>
-                        <BottomNavigationAction
-                            showLabel
-                            label={<label style={labelStyle}>Barberos</label>}
-                            icon={
-                                <Image
-                                    alt=""
-                                    src={'/navbar-icons/users.svg'}
-                                    width={24}
-                                    height={24}
-                                />
-                            }
-                        />
-                    </Link>
-
+                    {user?.role === 'owner' && (
+                        <Link legacyBehavior href={'/dashboard/barberos'}>
+                            <BottomNavigationAction
+                                showLabel
+                                label={<label style={labelStyle}>Barberos</label>}
+                                icon={
+                                    <Image
+                                        alt=""
+                                        src={'/navbar-icons/users.svg'}
+                                        width={24}
+                                        height={24}
+                                    />
+                                }
+                            />
+                        </Link>
+                    )}
                     <Link legacyBehavior href={'/dashboard/products'}>
                         <BottomNavigationAction
                             showLabel

@@ -3,7 +3,7 @@ import withAuth from "@/components/WithAuth";
 
 function DashboardLayout({ children }) {
     return (
-        <div>{children}</div>
+        <div style={{ paddingTop: "10px" }} >{children}</div>
     )
 
 }

@@ -38,7 +38,7 @@ export const ItemContainer = styled.div`
   background-color: #bdd1de;
 `
 export const InputLogin = styled.input`
-  width: 60%;
+  width: 62%;
   border-radius: 16px;
   border: 1px solid #ffffff80;
   border: none;

@@ -10,7 +10,7 @@ import {
     where,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const CortesContext = createContext<any>({})
 
@@ -24,6 +24,12 @@ export const useCortes = () => {
 }
 
 export const useCortesProvider = () => {
+    const [cortes, setCortes] = useState([]);
+    const [cortesEnEspera, setCortesEnEspera] = useState([]);
+    const [cortesEnProceso, setCortesEnProceso] = useState([]);
+    const [cortesTerminados, setCortesTerminados] = useState([]);
+
+
 
     const getCortes = async () => {
         const cortes: any = [];
@@ -37,6 +43,13 @@ export const useCortesProvider = () => {
         } catch (error) {
             console.error('Error fetching users:', error);
         }
+        let waiting = cortes.filter(corte => corte.status === 'En espera')
+        let process = cortes.filter(corte => corte.status === 'En proceso')
+        let done = cortes.filter(corte => corte.status === 'Terminado')
+        setCortes(cortes)
+        setCortesEnEspera(waiting)
+        setCortesEnProceso(process)
+        setCortesTerminados(done)
         return cortes;
     }
 
@@ -64,13 +77,19 @@ export const useCortesProvider = () => {
     const updateCorte = async (corteId: string, data: any) => {
         const corteRef = doc(db, 'cortes', corteId)
         await updateDoc(corteRef, { ...data })
-        const newCorte = await getCorteById(corteId)
-        return newCorte;
+        await getCorteById(corteId)
+        const cortesUpdated = await getCortes()
+        return cortesUpdated
     }
     return {
         createCorte,
         getCorteById,
         updateCorte,
         getCortes,
+        cortes,
+        cortesEnEspera,
+        cortesEnProceso,
+        cortesTerminados,
+        setCortes
     }
 }

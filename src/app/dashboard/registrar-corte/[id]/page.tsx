@@ -61,10 +61,12 @@ export default function RegistrarCorte() {
     }
 
     const handleSubmit = async () => {
+        const barberSelectedData = barberSelected?.length > 0 ? await getUserById(barberSelected) : false;
         const id = uuidv4();
         const corteId = uuidv4();
         const newCorte = await createCorte({
-            barberName: barberSelected,
+            barberName: barberSelectedData?.name || '',
+            barberId: barberSelectedData?.id || '',
             createdDate: new Date(),
             id: corteId,
             price: 0,

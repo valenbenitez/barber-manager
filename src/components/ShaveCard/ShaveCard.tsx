@@ -3,6 +3,7 @@ import * as Styled from './style';
 import DataTable from 'react-data-table-component';
 import { useCortes } from '@/hooks/useCortes';
 import SimpleSnackbar from '../SimpleSnackbar/SimpleSnackbar';
+import { Button, TextField } from '@mui/material';
 
 function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
     const milliseconds = Math.floor(nanoseconds / 1e6); // Convertir nanosegundos a milisegundos
@@ -25,7 +26,7 @@ const ExpandedComponent = ({ data }) => {
             setError(true)
         } else {
             setAmount(0)
-            await updateCorte(data.id, { completedDate: new Date(), status: 'Terminado', price: amount })
+            await updateCorte(data.id, { status: 'Terminado', price: amount })
         }
     }
 
@@ -37,10 +38,9 @@ const ExpandedComponent = ({ data }) => {
         <>
             {data?.status === 'En proceso' || data?.status === 'En espera' ? (
                 <Styled.StartContainer>
-                    <pre>{JSON.stringify(data.id, null, 2)}</pre>
-                    <button onClick={handleCorteInProcess}>En proceso</button>
-                    <input type='number' placeholder='Precio final cobrado al cliente' onChange={handleChange} value={amount}></input>
-                    <button onClick={handleFinally} >Finalizar y cobrar</button>
+                    {data?.status === 'En espera' && <Button variant='contained' onClick={handleCorteInProcess}>En proceso</Button>}
+                    {data?.status === 'En proceso' && <TextField sx={{ outlined: 'none' }} variant='outlined' type='number' placeholder='Precio final cobrado al cliente' onChange={handleChange} value={amount}></TextField>}
+                    {data?.status === 'En proceso' && <Button variant='contained' color='warning' onClick={handleFinally} >Finalizar y cobrar</Button>}
                 </Styled.StartContainer>
             ) : (
                 <Styled.StartContainer>
@@ -71,6 +71,10 @@ const columns = [
         name: 'Registrado',
         selector: row => formatSecondsAndNanosecondsToDate(row.createdDate?.seconds, row.createdDate?.nanoseconds),
     },
+    {
+        name: 'Cobrar',
+        selector: row => row?.toCollect ? 'Si' : 'No',
+    }
 ];
 
 interface ShaveCardProps {

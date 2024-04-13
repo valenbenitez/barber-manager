@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import { Container, ColumnContainer, ItemContainer, StartContainer, Title, RowContainer, Label } from "./style";
-import { Fab } from "@mui/material";
+import { Button, Fab } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import NavBar from "@/components/NavBar/NavBar";
@@ -15,6 +15,7 @@ const buttons = [
   { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
   { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
   { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
+  { path: '/dashboard/barber-view', icon: '/navbar-icons/view.svg', label: 'Vista barbero' },
 ]
 
 function Dashboard() {
@@ -44,11 +45,11 @@ function Dashboard() {
       <Container>
         <ColumnContainer>
           <ItemContainer>
-            <StartContainer>
+            {/* <StartContainer>
               <Title>Cortes diarios:</Title>
             </StartContainer>
-            <Title>0</Title>
-            <button onClick={signOutUser}>Cerrar sesion</button>
+            <Title>0</Title> */}
+            <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
               {buttons?.length && buttons.map(button => (
                 <Link legacyBehavior href={button.path} key={button.path}>
@@ -62,13 +63,13 @@ function Dashboard() {
           <br />
           <ItemContainer>
             <StartContainer>
-              <label>Cortes en espera:</label>
-            </StartContainer>
-            <ShaveCard status="En espera" />
-            <StartContainer>
               <label>Cortes en proceso:</label>
             </StartContainer>
             <ShaveCard status="En proceso" />
+            <StartContainer>
+              <label>Cortes en espera:</label>
+            </StartContainer>
+            <ShaveCard status="En espera" />
             <StartContainer>
               <label>Cortes terminados:</label>
             </StartContainer>

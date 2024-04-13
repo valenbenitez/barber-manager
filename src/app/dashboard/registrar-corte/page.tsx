@@ -17,7 +17,7 @@ export default function RegistrarCorte() {
     const [service, setService] = useState('')
     const [extrasSelected, setExtrasSelected] = useState<any>([])
     const [barberSelected, setBarberSelected] = useState<User[]>([])
-    const { createUser, getBarbers } = useUser();
+    const { createUser, getBarbers, getUserById } = useUser();
     const { createCorte } = useCortes();
     const params = useParams()
 
@@ -56,6 +56,7 @@ export default function RegistrarCorte() {
     }
 
     const handleSubmit = async () => {
+        const barberSelectedData = barberSelected?.length > 0 ? await getUserById(barberSelected) : false
         const id = uuidv4();
         const corteId = uuidv4();
         const newUser = await createUser({
@@ -67,7 +68,8 @@ export default function RegistrarCorte() {
             email: ''
         })
         const newCorte = await createCorte({
-            barberName: barberSelected,
+            barberName: barberSelectedData?.name || '',
+            barberId: barberSelectedData?.id || '',
             createdDate: new Date(),
             id: corteId,
             price: 0,
@@ -90,7 +92,7 @@ export default function RegistrarCorte() {
                         <Styled.FormSelect onChange={handleChangeBarber}>
                             <Styled.Option>Seleccionar barbero</Styled.Option>
                             {barbers?.length && barbers.map(barber => (
-                                <Styled.Option value={barber.name} key={barber.phone} >{barber.name}</Styled.Option>
+                                <Styled.Option value={barber.id} key={barber.phone} >{barber.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
                         <Styled.FormSelect onChange={handleChangeServices}>
