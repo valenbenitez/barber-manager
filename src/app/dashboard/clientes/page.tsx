@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 import { useUser } from '@/hooks/useUser'
 import ClientList from '@/components/ClientList/ClientList'
-import NavBar from '@/components/NavBar/NavBar'
 
 function Clientes() {
     const [clients, setClients] = useState([])
@@ -28,7 +27,6 @@ function Clientes() {
                     <ClientList clients={clients} />
                 </Styled.ItemContainer>
             </Styled.Container>
-            <NavBar />
         </>
     )
 }

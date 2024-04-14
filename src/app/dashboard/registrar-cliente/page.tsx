@@ -4,7 +4,6 @@ import * as Styled from "./style";
 import { useUser } from "@/hooks/useUser";
 import { v4 as uuidv4 } from 'uuid';
 import SimpleSnackbar from "@/components/SimpleSnackbar/SimpleSnackbar";
-import NavBar from "@/components/NavBar/NavBar";
 
 const initialNewClient = {
     name: "",
@@ -63,7 +62,6 @@ export default function RegisterClient() {
                     <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Cliente registrado" />
                 </Styled.ColumnContainer>
             </Styled.Container>
-            <NavBar />
         </>
     );
 }

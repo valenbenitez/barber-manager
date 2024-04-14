@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import * as Styled from './style'
-import NavBar from '@/components/NavBar/NavBar'
 import { useUser } from '@/hooks/useUser'
 import ShavesByBarber from '@/components/ShavesByBarber/ShavesByBarber'
 
@@ -24,7 +23,6 @@ export default function BarberView() {
                     <ShavesByBarber status='En espera' barberId={user?.id} />
                 </Styled.ItemContainer>
             </Styled.Content>
-            <NavBar />
         </>
     )
 }

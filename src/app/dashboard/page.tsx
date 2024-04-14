@@ -5,7 +5,6 @@ import { Container, ColumnContainer, ItemContainer, StartContainer, Title, RowCo
 import { Button, Fab } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import NavBar from "@/components/NavBar/NavBar";
 import ShaveCard from "@/components/ShaveCard/ShaveCard";
 import { useAuth } from "@/hooks/useAuth";
 import withAuth from "@/components/WithAuth";
@@ -82,7 +81,6 @@ function Dashboard() {
       <br />
       <br />
       <br />
-      <NavBar />
     </div>
   );
 }

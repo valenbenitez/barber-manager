@@ -4,7 +4,6 @@ import * as Styled from "./style";
 import { useUser } from "@/hooks/useUser";
 import { v4 as uuidv4 } from 'uuid';
 import SimpleSnackbar from "@/components/SimpleSnackbar/SimpleSnackbar";
-import NavBar from "@/components/NavBar/NavBar";
 import { User } from "@/models/user";
 import { useCortes } from "@/hooks/useCortes";
 import { extras, initialNewClient, services } from "./constants";
@@ -133,7 +132,6 @@ export default function RegistrarCorte() {
                     <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Cliente registrado" />
                 </Styled.ColumnContainer>
             </Styled.Container >
-            <NavBar />
         </>
     );
 }
