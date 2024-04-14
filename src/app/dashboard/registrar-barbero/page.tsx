@@ -86,17 +86,17 @@ export default function RegisterBarber() {
                             onChange={handleChange}
                         />
                         <Styled.InputLogin
+                            maxLength={10}
                             placeholder="Celular"
                             name="phone"
                             value={newClient.phone}
                             onChange={handleChange}
-                            type="number"
                         />
                     </Styled.ItemContainer>
                     <br />
                     <br />
                     <Styled.SubmitButton onClick={handleSubmit}>Registrar</Styled.SubmitButton>
-                    <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Cliente registrado" />
+                    <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Barbero registrado" />
                 </Styled.ColumnContainer>
             </Styled.Container>
         </>

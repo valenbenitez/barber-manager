@@ -8,6 +8,7 @@ import Link from "next/link";
 import ShaveCard from "@/components/ShaveCard/ShaveCard";
 import { useAuth } from "@/hooks/useAuth";
 import withAuth from "@/components/WithAuth";
+import BarberStatus from "@/components/BarberStatus/BarberStatus";
 
 const buttons = [
   // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
@@ -44,10 +45,6 @@ function Dashboard() {
       <Container>
         <ColumnContainer>
           <ItemContainer>
-            {/* <StartContainer>
-              <Title>Cortes diarios:</Title>
-            </StartContainer>
-            <Title>0</Title> */}
             <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
               {buttons?.length && buttons.map(button => (
@@ -58,6 +55,11 @@ function Dashboard() {
                 </Link>
               ))}
             </RowContainer>
+          </ItemContainer>
+          <br />
+          <ItemContainer>
+            <h4>Disponibilidad barberos</h4>
+            <BarberStatus />
           </ItemContainer>
           <br />
           <ItemContainer>

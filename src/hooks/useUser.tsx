@@ -124,6 +124,25 @@ export const useUserProvider = () => {
         return users;
     };
 
+    const disponibilityOfBarber = async (barberId): Promise<boolean> => {
+        const cortes: any = [];
+        const q = query(collection(db, 'cortes'), where('status', '==', 'En proceso'), where('barberId', '==', barberId))
+        try {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(doc => {
+                const orderData = doc.data();
+                cortes.push(orderData);
+            })
+        } catch (error) {
+            console.error('Error fetching cortes:', error);
+        }
+        if (cortes.length > 0) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     const getClients = async (): Promise<User[]> => {
         const users: User[] = [];
         const usersQuery = query(collection(db, 'users'), where('role', '==', 'client'));
@@ -207,6 +226,7 @@ export const useUserProvider = () => {
         getUsersByRole,
         getBarbers,
         getClients,
-        filterCortes
+        filterCortes,
+        disponibilityOfBarber
     };
 };

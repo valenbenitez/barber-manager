@@ -12,13 +12,14 @@ function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
 }
 
 // A super simple expandable component.
-const ExpandedComponent = ({ data }) => {
+const ExpandedComponent = ({ data, fetchCortes }) => {
     const [amount, setAmount] = useState(0)
     const [error, setError] = useState(false)
     const { updateCorte } = useCortes();
 
     async function handleCorteInProcess() {
-        await updateCorte(data.id, { status: 'En proceso' })
+        const newCortes = await updateCorte(data.id, { status: 'En proceso' })
+        await fetchCortes(newCortes);
     }
 
     async function handleFinally() {
@@ -26,7 +27,8 @@ const ExpandedComponent = ({ data }) => {
             setError(true)
         } else {
             setAmount(0)
-            await updateCorte(data.id, { status: 'Terminado', price: amount })
+            const newCortes = await updateCorte(data.id, { status: 'Terminado', price: amount })
+            await fetchCortes(newCortes)
         }
     }
 
@@ -82,14 +84,15 @@ interface ShaveCardProps {
 }
 
 function ShaveCard({ status }: ShaveCardProps) {
+    const [updateCortes, setUpdateCortes] = useState(false);
     const [cortes, setCortes] = useState([]);
-    const { getCortes } = useCortes();
+    const { getCortes, cortesEnEspera, cortesEnProceso, cortesTerminados } = useCortes();
     const [firstTime, setFirstTime] = useState(true)
 
 
     useEffect(() => {
-        firstTime && fetchCortes();
-    }, [])
+        fetchCortes();
+    }, [updateCortes])
 
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS
@@ -99,13 +102,21 @@ function ShaveCard({ status }: ShaveCardProps) {
         setFirstTime(false)
     }
 
+    const components = {
+        'En espera': cortesEnEspera,
+        'En proceso': cortesEnProceso,
+        'Terminado': cortesTerminados,
+    }
+
     return (
         <DataTable
             columns={columns}
-            data={cortes}
+            data={components[status]}
             expandableRows
-            expandableRowsComponent={ExpandedComponent}
+            expandableRowsComponent={({ data }) => <ExpandedComponent data={data} fetchCortes={fetchCortes} />}
             pagination
+            fixedHeader
+            fixedHeaderScrollHeight="800px"
         />
     )
 }
