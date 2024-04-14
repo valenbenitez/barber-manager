@@ -5,6 +5,7 @@ import { useCortes } from '@/hooks/useCortes';
 import SimpleSnackbar from '../SimpleSnackbar/SimpleSnackbar';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Button } from '@mui/material';
 
 function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
     const milliseconds = Math.floor(nanoseconds / 1e6); // Convertir nanosegundos a milisegundos
@@ -51,12 +52,14 @@ export default function ClientList({ clients }) {
             selector: row => row.id,
             button: true,
             cell: (row) => (
-                <button
+                <Button
+                    variant='contained'
+                    color='warning'
                     className="btn btn-outline btn-xs"
                     onClick={(e) => handleButtonClick(e, row.id)}
                 >
                     Nuevo corte
-                </button>
+                </Button>
             ),
         }
     ];
