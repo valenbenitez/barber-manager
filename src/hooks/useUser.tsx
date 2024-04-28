@@ -109,9 +109,9 @@ export const useUserProvider = () => {
         return cortes
     };
 
-    const getBarbers = async (): Promise<User[]> => {
+    const getPersonalByType = async (type: 'barberia' | 'peluqueria' | 'belleza' | 'none'): Promise<User[]> => {
         const users: User[] = [];
-        const usersQuery = query(collection(db, 'users'), where('role', '==', 'barber'));
+        const usersQuery = query(collection(db, 'users'), where('role', '==', 'employee'), where('type', '==', type));
         try {
             const querySnapshot = await getDocs(usersQuery);
             querySnapshot.forEach((doc) => {
@@ -224,7 +224,7 @@ export const useUserProvider = () => {
         isOwner,
         addFieldToUsersCollection,
         getUsersByRole,
-        getBarbers,
+        getPersonalByType,
         getClients,
         filterCortes,
         disponibilityOfBarber

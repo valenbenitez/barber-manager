@@ -9,11 +9,11 @@ import Link from 'next/link'
 export default function Barbers() {
     const [barbers, setBarbers] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const { getBarbers, filterCortes } = useUser();
+    const { getPersonalByType, filterCortes } = useUser();
 
     useEffect(() => {
         setIsLoading(true)
-        getBarbers().then(result => {
+        getPersonalByType('barberia').then(result => {
             setBarbers(result)
             setIsLoading(false)
         })
@@ -45,6 +45,7 @@ export default function Barbers() {
                     ))}
                 </Styled.ItemContainer>
             </Styled.Content>
+            <br /><br /><br /><br />
         </Styled.Container>
     )
 }

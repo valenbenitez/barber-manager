@@ -48,11 +48,12 @@ export default function RegisterBarber() {
         const id = uuidv4();
         const newUser = await createUser({
             createdAt: new Date(),
-            role: 'barber',
+            email: '',
+            id: id,
             name: newClient.name,
             phone: newClient.phone,
-            id: id,
-            email: ''
+            role: 'employee',
+            type: 'barberia',
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)

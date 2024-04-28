@@ -57,7 +57,7 @@ function NavBar() {
                             />
                         </Link>
                     )}
-                    <Link id="exchange_money_02" legacyBehavior href={'/dashboard/registrar-corte'}>
+                    <Link id="exchange_money_02" legacyBehavior href={'/dashboard/clientes'}>
                         <BottomNavigationAction
                             icon={
                                 <Image

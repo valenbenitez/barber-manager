@@ -6,19 +6,39 @@ import { v4 as uuidv4 } from 'uuid';
 import SimpleSnackbar from "@/components/SimpleSnackbar/SimpleSnackbar";
 import { User } from "@/models/user";
 import { useCortes } from "@/hooks/useCortes";
-import { extras, initialNewClient, services } from "../constants";
+import { initialNewClient, barberExtras, barberServices, bellezaExtras, bellezaServices, peluqueriaExtras, peluqueriaServices } from "../constants";
 import { useParams } from 'next/navigation'
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function RegistrarCorte() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [newClient, setNewClient] = useState(initialNewClient);
-    const [barbers, setBarbers] = useState<User[]>([])
+    const [personalBarberia, setPersonalBarberia] = useState<User[]>([])
+    const [personalPeluqueria, setPersonalPeluqueria] = useState<User[]>([])
+    const [personalBelleza, setPersonalBelleza] = useState<User[]>([])
     const [service, setService] = useState('')
+    const [type, setType] = useState<'barberia' | 'peluqueria' | 'belleza'>('barberia')
     const [extrasSelected, setExtrasSelected] = useState<any>([])
     const [barberSelected, setBarberSelected] = useState<User[]>([])
-    const { createUser, getBarbers, getUserById } = useUser();
+    const { getPersonalByType, getUserById } = useUser();
     const { createCorte } = useCortes();
     const { id } = useParams()
+    const personal = {
+        barberia: personalBarberia,
+        peluqueria: personalPeluqueria,
+        belleza: personalBelleza
+    }[type]
+    const servicesArray = {
+        barberia: barberServices,
+        peluqueria: peluqueriaServices,
+        belleza: bellezaServices,
+    }[type]
+    const extrasArray = {
+        barberia: barberExtras,
+        peluqueria: peluqueriaExtras,
+        belleza: bellezaExtras,
+    }[type]
 
     useEffect(() => {
         fetchBarbers()
@@ -50,14 +70,22 @@ export default function RegistrarCorte() {
     };
 
     const fetchBarbers = async () => {
-        const barbers = await getBarbers()
-        setBarbers(barbers)
+        const barbers = await getPersonalByType('barberia')
+        const personalPeluqueria = await getPersonalByType('peluqueria')
+        const personalBelleza = await getPersonalByType('belleza')
+        setPersonalBarberia(barbers)
+        setPersonalPeluqueria(personalPeluqueria)
+        setPersonalBelleza(personalBelleza)
     };
 
     const handleRemoveExtra = (extra: string) => {
         const filteredExtras = extrasSelected.filter(ex => ex !== extra)
         setExtrasSelected(filteredExtras)
     }
+
+    const handleServiceChange = (service: 'barberia' | 'peluqueria' | 'belleza') => {
+        setType(service);
+    };
 
     const handleSubmit = async () => {
         const barberSelectedData = barberSelected?.length > 0 ? await getUserById(barberSelected) : false;
@@ -85,20 +113,25 @@ export default function RegistrarCorte() {
                 <Styled.ColumnContainer>
                     <Styled.ItemContainer>
                         <Styled.Title>Registrar corte</Styled.Title>
+                        <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff' }} size="large">
+                            <Button onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
+                            <Button onClick={() => handleServiceChange('peluqueria')} variant="contained" color="warning" disabled={type === 'peluqueria' ? true : false}>PELUQUERIA</Button>
+                            <Button onClick={() => handleServiceChange('belleza')} variant="contained" color="secondary" disabled={type === 'belleza' ? true : false}>BELLEZA</Button>
+                        </ButtonGroup>
                         <Styled.FormSelect onChange={handleChangeBarber}>
-                            <Styled.Option>Seleccionar barbero</Styled.Option>
-                            {barbers?.length && barbers.map(barber => (
+                            <Styled.Option>Seleccionar {`personal de ${type}`}</Styled.Option>
+                            {personal?.length && personal.map(barber => (
                                 <Styled.Option value={barber.name} key={barber.phone} >{barber.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
                         <Styled.FormSelect onChange={handleChangeServices}>
-                            {services?.length && services.map(service => (
+                            {servicesArray?.length && servicesArray.map(service => (
                                 <Styled.Option value={service.name} key={service.name}>{service.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
                         <Styled.FormSelect onChange={handleChangeExtras}>
                             <Styled.Option>Seleccionar extras</Styled.Option>
-                            {extras?.length && extras.map(service => (
+                            {extrasArray?.length && extrasArray.map(service => (
                                 <Styled.Option value={service.name} key={service.name}>{service.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
@@ -122,10 +155,12 @@ export default function RegistrarCorte() {
                             value={newClient.phone}
                             onChange={handleChange}
                         />
+                        <Styled.SubmitButton onClick={handleSubmit}>Registrar</Styled.SubmitButton>
                     </Styled.ItemContainer>
                     <br />
                     <br />
-                    <Styled.SubmitButton onClick={handleSubmit}>Registrar</Styled.SubmitButton>
+                    <br />
+                    <br />
                     <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Cliente registrado" />
                 </Styled.ColumnContainer>
             </Styled.Container >

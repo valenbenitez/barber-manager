@@ -26,11 +26,12 @@ export default function RegisterClient() {
         const id = uuidv4();
         const newUser = await createUser({
             createdAt: new Date(),
-            role: 'client',
+            email: '',
+            id: id,
             name: newClient.name,
             phone: newClient.phone,
-            id: id,
-            email: ''
+            role: 'client',
+            type: 'none',
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)

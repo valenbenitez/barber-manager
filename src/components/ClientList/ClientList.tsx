@@ -80,10 +80,13 @@ export default function ClientList({ clients }) {
     return (
         <>
             <Styled.InputLogin
-                placeholder="Search by customer..."
+                placeholder="Buscar por nombre"
                 onChange={handleSearchInputChange}
                 value={searchQuery}
             />
+            <Link href={'/dashboard/registrar-corte'}>
+                <Button variant='contained' color='success'>Cliente nuevo</Button>
+            </Link>
             <DataTable
                 columns={columns}
                 data={filteredCustomers}

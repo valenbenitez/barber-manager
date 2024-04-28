@@ -34,11 +34,11 @@ const columns = (disponibilityOfBarber) => [
 export default function BarberStatus() {
     const [barbers, setBarbers] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const { getBarbers, disponibilityOfBarber } = useUser()
+    const { getPersonalByType, disponibilityOfBarber } = useUser()
 
     useEffect(() => {
         setIsLoading(true)
-        getBarbers().then(result => {
+        getPersonalByType('barberia').then(result => {
             setBarbers(result)
             setIsLoading(false)
         })
@@ -52,7 +52,7 @@ export default function BarberStatus() {
             data={barbers}
             expandableRows
             expandableRowsComponent={ExpandedComponent}
-            pagination
+            // pagination
             fixedHeader
             fixedHeaderScrollHeight="800px"
         />

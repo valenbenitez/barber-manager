@@ -1,8 +1,9 @@
 export interface User {
   createdAt: Date
-  role: 'barber' | 'owner' | 'client'
+  email?: string
+  id: string
   name: string
   phone: string
-  id: string
-  email?: string
+  role: 'owner' | 'employee' | 'client'
+  type: 'barberia' | 'peluqueria' | 'belleza' | 'none'
 }

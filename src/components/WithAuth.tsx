@@ -22,6 +22,12 @@ const withAuth = (WrappedComponent) => {
             }
         }, [authState, router]);
 
+        useEffect(() => {
+            if (user && user?.type === 'barberia') {
+                router.push('/dashboard/barber-view')
+            }
+        }, [user])
+
         const fetchUser = async (id) => {
             await getUser(id)
         }
