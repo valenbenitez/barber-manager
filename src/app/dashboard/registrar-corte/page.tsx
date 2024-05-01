@@ -105,7 +105,8 @@ export default function RegistrarCorte() {
             clientName: newClient.name,
             clientPhone: newClient.phone,
             service: service,
-            extras: extrasSelected
+            extras: extrasSelected,
+            type: type
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
@@ -129,6 +130,7 @@ export default function RegistrarCorte() {
                             ))}
                         </Styled.FormSelect>
                         <Styled.FormSelect onChange={handleChangeServices}>
+                            <Styled.Option>Seleccionar servicio</Styled.Option>
                             {servicesArray?.length && servicesArray.map(service => (
                                 <Styled.Option value={service.name} key={service.name}>{service.name}</Styled.Option>
                             ))}

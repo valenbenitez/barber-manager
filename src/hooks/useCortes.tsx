@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Corte } from '@/models/cortes';
 
 const CortesContext = createContext<any>({})
 
@@ -31,14 +32,14 @@ export const useCortesProvider = () => {
 
 
 
-    const getCortes = async () => {
-        const cortes: any = [];
-        const q = query(collection(db, 'cortes'));
+    const getCortes = async (type: 'barberia' | 'peluqueria' | 'belleza' = 'barberia') => {
+        const cortes: Corte[] | any = [];
+        const q = query(collection(db, 'cortes'), where('type', '==', type));
         try {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
-                const userData = doc.data();
-                cortes.push(userData);
+                const corteData = doc.data();
+                cortes.push(corteData);
             });
         } catch (error) {
             console.error('Error fetching users:', error);

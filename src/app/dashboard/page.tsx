@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import withAuth from "@/components/WithAuth";
 import BarberiaInfo from "./components/BarberiaInfo";
+import PeluqueriaInfo from "./components/PeluqueriaInfo";
+import BellezaInfo from "./components/BellezaInfo";
 
 const buttons = [
   // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
@@ -47,8 +49,8 @@ function Dashboard() {
   //HACER COMPONENTES DE INFORMACION DE CADA TIPO
   const componentsOfInfo = {
     barberia: (<BarberiaInfo />),
-    peluqueria: (<>Peluqueria</>),
-    belleza: (<>Belleza</>),
+    peluqueria: (<PeluqueriaInfo />),
+    belleza: (<BellezaInfo />),
   }[type]
 
   return (
@@ -69,9 +71,9 @@ function Dashboard() {
           </ItemContainer>
           {/* PODER SELECCIONAR VER LA INFORMACION DE BARBERIA | PELUQUERIA | BELLEZA */}
           <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff' }} size="large">
-            <Button onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
-            <Button onClick={() => handleServiceChange('peluqueria')} variant="contained" color="warning" disabled={type === 'peluqueria' ? true : false}>PELUQUERIA</Button>
-            <Button onClick={() => handleServiceChange('belleza')} variant="contained" color="secondary" disabled={type === 'belleza' ? true : false}>BELLEZA</Button>
+            <Button style={{ borderRadius: '12px' }} onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
+            <Button style={{ borderRadius: '12px' }} onClick={() => handleServiceChange('peluqueria')} variant="contained" color="warning" disabled={type === 'peluqueria' ? true : false}>PELUQUERIA</Button>
+            <Button style={{ borderRadius: '12px' }} onClick={() => handleServiceChange('belleza')} variant="contained" color="secondary" disabled={type === 'belleza' ? true : false}>BELLEZA</Button>
           </ButtonGroup>
           <ItemContainer>
             {componentsOfInfo}

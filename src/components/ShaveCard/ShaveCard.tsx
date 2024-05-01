@@ -81,9 +81,10 @@ const columns = [
 
 interface ShaveCardProps {
     status: 'Terminado' | 'En proceso' | 'En espera'
+    type?: 'barberia' | 'peluqueria' | 'belleza'
 }
 
-function ShaveCard({ status }: ShaveCardProps) {
+function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
     const [updateCortes, setUpdateCortes] = useState(false);
     const [cortes, setCortes] = useState([]);
     const { getCortes, cortesEnEspera, cortesEnProceso, cortesTerminados } = useCortes();
@@ -96,7 +97,7 @@ function ShaveCard({ status }: ShaveCardProps) {
 
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS
-        const cortes = await getCortes();
+        const cortes = await getCortes(type);
         const filteredCortes = cortes.filter(corte => corte.status === status)
         setCortes(filteredCortes)
         setFirstTime(false)
@@ -112,6 +113,7 @@ function ShaveCard({ status }: ShaveCardProps) {
         <DataTable
             columns={columns}
             data={components[status]}
+            noDataComponent={<label style={{ padding: '14px' }}>Sin cortes</label>}
             expandableRows
             expandableRowsComponent={({ data }) => <ExpandedComponent data={data} fetchCortes={fetchCortes} />}
             pagination

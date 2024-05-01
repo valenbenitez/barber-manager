@@ -48,7 +48,7 @@ export default function RegisterBarber() {
         const id = uuidv4();
         const newUser = await createUser({
             createdAt: new Date(),
-            email: '',
+            email: newClient.email,
             id: id,
             name: newClient.name,
             phone: newClient.phone,
