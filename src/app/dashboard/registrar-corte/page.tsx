@@ -17,7 +17,7 @@ export default function RegistrarCorte() {
     const [personalBarberia, setPersonalBarberia] = useState<User[]>([])
     const [personalPeluqueria, setPersonalPeluqueria] = useState<User[]>([])
     const [personalBelleza, setPersonalBelleza] = useState<User[]>([])
-    const [service, setService] = useState('')
+    const [service, setService] = useState('barberia')
     const [type, setType] = useState<'barberia' | 'peluqueria' | 'belleza'>('barberia')
     const [extrasSelected, setExtrasSelected] = useState<any>([])
     const [barberSelected, setBarberSelected] = useState<User[]>([])

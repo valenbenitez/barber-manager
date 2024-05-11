@@ -31,10 +31,11 @@ const ExpandedComponent = ({ data, fetchCortes }) => {
     const [amount, setAmount] = useState(0)
     const [error, setError] = useState(false)
     const { updateCorte, getCortes } = useCortes();
-    const { user } = useUser();
+    const { user, updateUser } = useUser();
 
     async function handleCorteInProcess() {
         const updateData = data.barberId === '' ? { status: 'En proceso', barberId: user?.id, barberName: user?.name } : { status: 'En proceso' }
+        await updateUser(user?.id, { available: false })
         const newCortes = await updateCorte(data.id, updateData)
         await fetchCortes(newCortes);
     }
@@ -42,6 +43,7 @@ const ExpandedComponent = ({ data, fetchCortes }) => {
     // ESTA FUNCION DEBE MARCAR EL COMPLETED DATE PERO SIN CAMBIAR EL STATUS YA QUE FALTA FACTURARLO
     async function handleBarberFinally() {
         const newCortes = await updateCorte(data.id, { completedDate: new Date(), toCollect: true })
+        await updateUser(user?.id, { available: true })
         await fetchCortes(newCortes)
     }
 

@@ -6,4 +6,5 @@ export interface User {
   phone: string
   role: 'owner' | 'employee' | 'client'
   type: 'barberia' | 'peluqueria' | 'belleza' | 'none'
+  available?: boolean
 }

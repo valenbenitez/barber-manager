@@ -11,6 +11,7 @@ import BarberiaInfo from "./components/BarberiaInfo";
 import PeluqueriaInfo from "./components/PeluqueriaInfo";
 import BellezaInfo from "./components/BellezaInfo";
 import { CenterContainer } from "./barberos/style";
+import EmployeesInfo from "./components/EmployeesInfo";
 
 //TODO: ARREGLAR BOTONES EN MOBILE
 
@@ -71,8 +72,8 @@ function Dashboard() {
                 </Link>
               ))}
             </RowContainer>
+            <EmployeesInfo />
           </ItemContainer>
-          {/* PODER SELECCIONAR VER LA INFORMACION DE BARBERIA | PELUQUERIA | BELLEZA */}
           <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} ></div>
           <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff' }} size="large">
             <Button style={{ borderRadius: '12px', padding: '12px' }} onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
