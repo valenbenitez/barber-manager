@@ -25,6 +25,7 @@ const columns = [
 interface ShaveCardProps {
     status: 'Terminado' | 'En proceso' | 'En espera';
     barberId: string;
+    type: 'barberia' | 'peluqueria' | 'belleza';
 }
 
 // A super simple expandable component.
@@ -69,12 +70,12 @@ const ExpandedComponent = ({ data, fetchCortes }) => {
     )
 }
 
-function ShavesByBarber({ status, barberId }: ShaveCardProps) {
+function ShavesByBarber({ status, barberId, type }: ShaveCardProps) {
     const [updateCortes, setUpdateCortes] = useState(false);
     const [cortesFiltered, setCortes] = useState([]);
     const { getCortes } = useCortes();
     const [firstTime, setFirstTime] = useState(true)
-    const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime('barberia');
+    const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime(type);
 
     useEffect(() => {
         fetchCortes();

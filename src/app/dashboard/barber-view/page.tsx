@@ -11,16 +11,18 @@ export default function BarberView() {
             <Styled.Content>
                 <Styled.StartContainer>
                     <Styled.Label>Hola {user?.name}</Styled.Label>
+                    <br /><br />
                 </Styled.StartContainer>
                 <Styled.ItemContainer>
                     <Styled.StartContainer>
                         <Styled.Label>Cortes en proceso:</Styled.Label>
                     </Styled.StartContainer>
-                    <ShavesByBarber status='En proceso' barberId={user?.id} />
+                    <ShavesByBarber status='En proceso' barberId={user?.id} type={user?.type} />
                     <Styled.StartContainer>
                         <Styled.Label>Cortes en espera:</Styled.Label>
                     </Styled.StartContainer>
-                    <ShavesByBarber status='En espera' barberId={user?.id} />
+                    <ShavesByBarber status='En espera' barberId={user?.id} type={user?.type} />
+                    <label>Servicio: {user?.type}</label>
                 </Styled.ItemContainer>
             </Styled.Content>
         </>

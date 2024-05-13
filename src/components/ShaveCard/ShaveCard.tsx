@@ -92,18 +92,9 @@ function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
     const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime(type);
     const [firstTime, setFirstTime] = useState(true)
 
-
     useEffect(() => {
         fetchCortes();
     }, [updateCortes])
-
-    useEffect(() => {
-        // Establecer el intervalo
-        const intervalId = setInterval(fetchCortes, 30000); // 120000 ms equivalen a dos minutos
-
-        // Limpiar el intervalo cuando el componente se desmonte
-        return () => clearInterval(intervalId);
-    }, []); //
 
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS

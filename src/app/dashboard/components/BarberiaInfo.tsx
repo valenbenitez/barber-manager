@@ -13,7 +13,7 @@ export default function BarberiaInfo() {
     }
 
     return (
-        < >
+        <>
             <div style={{ display: 'flex', padding: '2px', gap: '10px', backgroundColor: '#fff', borderRadius: '12px' }} >
                 <Button style={{ borderRadius: '12px' }} size='small' onClick={() => handleStatus('En espera')} variant="contained" color="primary" disabled={status === 'En espera' ? true : false}>En espera</Button>
                 <Button style={{ borderRadius: '12px' }} size='small' onClick={() => handleStatus('En proceso')} variant="contained" color="primary" disabled={status === 'En proceso' ? true : false}>En proceso</Button>
