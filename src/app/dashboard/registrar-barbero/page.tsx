@@ -15,10 +15,13 @@ const initialNewClient = {
     email: ""
 };
 
+const types = [{ name: 'Barberia', value: 'barberia' }, { name: 'Peluqueria', value: 'peluqueria' }, { name: 'Belleza', value: 'belleza' }, { name: 'Ninguno', value: 'none' }]
+
 export default function RegisterBarber() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [newClient, setNewClient] = useState(initialNewClient);
+    const [type, setType] = useState('barberia');
     const { createUser, isOwner, getUser } = useUser();
     const { authState } = useAuth();
     const router = useRouter();
@@ -44,6 +47,10 @@ export default function RegisterBarber() {
         });
     };
 
+    const handleChangeExtras = (event) => {
+        setType(event.target.value)
+    };
+
     const handleSubmit = async () => {
         const id = uuidv4();
         const newUser = await createUser({
@@ -53,7 +60,7 @@ export default function RegisterBarber() {
             name: newClient.name,
             phone: newClient.phone,
             role: 'employee',
-            type: 'barberia',
+            type: type,
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
@@ -93,6 +100,12 @@ export default function RegisterBarber() {
                             value={newClient.phone}
                             onChange={handleChange}
                         />
+                        <Styled.FormSelect onChange={handleChangeExtras}>
+                            <Styled.Option>Seleccionar servicio</Styled.Option>
+                            {types?.length && types.map(service => (
+                                <Styled.Option value={service.value} key={service.name}>{service.name}</Styled.Option>
+                            ))}
+                        </Styled.FormSelect>
                     </Styled.ItemContainer>
                     <br />
                     <br />
