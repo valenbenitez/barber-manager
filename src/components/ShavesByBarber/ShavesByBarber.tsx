@@ -5,6 +5,7 @@ import { useCortes } from '@/hooks/useCortes';
 import SimpleSnackbar from '../SimpleSnackbar/SimpleSnackbar';
 import { Button } from '@mui/material';
 import { useUser } from '@/hooks/useUser';
+import { useCortesRealTime } from '@/hooks/useCortesRealTime';
 
 const columns = [
     {
@@ -71,9 +72,9 @@ const ExpandedComponent = ({ data, fetchCortes }) => {
 function ShavesByBarber({ status, barberId }: ShaveCardProps) {
     const [updateCortes, setUpdateCortes] = useState(false);
     const [cortesFiltered, setCortes] = useState([]);
-    const { getCortes, cortes, cortesEnEspera, cortesEnProceso, cortesTerminados } = useCortes();
+    const { getCortes } = useCortes();
     const [firstTime, setFirstTime] = useState(true)
-
+    const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime('barberia');
 
     useEffect(() => {
         fetchCortes();
@@ -100,9 +101,9 @@ function ShavesByBarber({ status, barberId }: ShaveCardProps) {
     }
 
     const components = {
-        'En espera': cortesEnEspera,
-        'En proceso': cortesEnProceso,
-        'Terminados': cortesTerminados,
+        'En espera': cortesEnEsperaRealTime,
+        'En proceso': cortesEnProcesoRealTime,
+        'Terminados': cortesTerminadosRealTime,
     }
 
     return (

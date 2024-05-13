@@ -80,7 +80,7 @@ export default function RegisterBarber() {
             <Styled.Container>
                 <Styled.ColumnContainer>
                     <Styled.ItemContainer>
-                        <Styled.Title>Registrar barbero</Styled.Title>
+                        <Styled.Title>Registrar personal</Styled.Title>
                         <Styled.InputLogin
                             placeholder="Nombre"
                             name="name"
@@ -110,7 +110,7 @@ export default function RegisterBarber() {
                     <br />
                     <br />
                     <Styled.SubmitButton onClick={handleSubmit}>Registrar</Styled.SubmitButton>
-                    <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Barbero registrado" />
+                    <SimpleSnackbar open={openSnackbar} setOpen={setOpenSnackbar} title="Personal registrado" />
                 </Styled.ColumnContainer>
             </Styled.Container>
         </>

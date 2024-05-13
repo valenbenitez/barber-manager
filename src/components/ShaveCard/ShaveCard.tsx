@@ -4,6 +4,7 @@ import DataTable from 'react-data-table-component';
 import { useCortes } from '@/hooks/useCortes';
 import SimpleSnackbar from '../SimpleSnackbar/SimpleSnackbar';
 import { Button, TextField } from '@mui/material';
+import { useCortesRealTime } from '@/hooks/useCortesRealTime';
 
 function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
     const milliseconds = Math.floor(nanoseconds / 1e6); // Convertir nanosegundos a milisegundos
@@ -87,13 +88,22 @@ interface ShaveCardProps {
 function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
     const [updateCortes, setUpdateCortes] = useState(false);
     const [cortes, setCortes] = useState([]);
-    const { getCortes, cortesEnEspera, cortesEnProceso, cortesTerminados } = useCortes();
+    const { getCortes } = useCortes();
+    const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime(type);
     const [firstTime, setFirstTime] = useState(true)
 
 
     useEffect(() => {
         fetchCortes();
     }, [updateCortes])
+
+    useEffect(() => {
+        // Establecer el intervalo
+        const intervalId = setInterval(fetchCortes, 30000); // 120000 ms equivalen a dos minutos
+
+        // Limpiar el intervalo cuando el componente se desmonte
+        return () => clearInterval(intervalId);
+    }, []); //
 
     const fetchCortes = async () => {
         //TO DO: OMITIR LOS CORTES TERMINADOS
@@ -104,9 +114,9 @@ function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
     }
 
     const components = {
-        'En espera': cortesEnEspera,
-        'En proceso': cortesEnProceso,
-        'Terminado': cortesTerminados,
+        'En espera': cortesEnEsperaRealTime,
+        'En proceso': cortesEnProcesoRealTime,
+        'Terminado': cortesTerminadosRealTime,
     }
 
     return (

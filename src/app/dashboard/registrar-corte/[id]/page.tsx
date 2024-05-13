@@ -101,7 +101,8 @@ export default function RegistrarCorte() {
             clientName: newClient.name,
             clientPhone: newClient.phone,
             service: service,
-            extras: extrasSelected
+            extras: extrasSelected,
+            type: type
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
