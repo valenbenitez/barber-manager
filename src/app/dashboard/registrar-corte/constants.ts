@@ -6,8 +6,13 @@ export const initialNewClient = {
 export const barberServices = [{ name: 'Corte' }, { name: 'Corte + barba' }, { name: 'Barba sola' }]
 export const barberExtras = [{ name: 'Claritos' }, { name: 'Global' }, { name: 'Cuspide' }, { name: 'Permanente' }]
 
-export const peluqueriaServices = [{ name: 'Peluqueria Service 1' }, { name: 'Peluqueria Service 2' }]
-export const peluqueriaExtras = [{ name: 'Peluqueria Extra 1' }, { name: 'Peluqueria Extra 2' }]
+export const peluqueriaServices = [{ name: 'Corte femenino' }, { name: 'Peluqueria Service 2' }]
+export const peluqueriaExtras = [
+  { name: 'Mechas' },
+  { name: 'Tratamiento de keratina' },
+  { name: 'Tratamiento de botox' },
+  { name: 'Tratamiento de alisado' },
+]
 
 export const bellezaServices = [
   { name: 'Diseño de cejas y depilacion con hilo' },
