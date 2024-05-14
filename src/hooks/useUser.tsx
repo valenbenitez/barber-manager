@@ -9,9 +9,11 @@ import {
     updateDoc,
     where,
 } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { auth, db } from '../config/firebase';
 import React, { createContext, useContext, useState } from 'react';
 import { User } from '../models/user';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserContext = createContext<any>({});
 
@@ -26,6 +28,32 @@ export const useUser = () => {
 
 export const useUserProvider = () => {
     const [user, setUser] = useState<any>(null);
+
+    const registerEmployee = async () => {
+        createUserWithEmailAndPassword(auth, 'recepcion@saltlight.com', 'recepcion001')
+            .then(async (userCredential) => {
+                // El usuario se ha creado exitosamente
+                const user = userCredential.user;
+                console.log("Usuario registrado con éxito:", user);
+                await createUser({
+                    createdAt: new Date(),
+                    id: user.uid,
+                    name: 'Recepcionista',
+                    phone: '',
+                    role: 'employee',
+                    type: 'belleza',
+                    available: true,
+                    email: 'recepcion@saltlight.com'
+                })
+                // Aquí puedes redirigir al usuario o manejar sesiones
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Error al registrar el usuario:", errorCode, errorMessage);
+                // Manejo de errores, como mostrar un mensaje en la UI
+            });
+    }
 
     const createUser = async (user: User) => {
         return setDoc(doc(db, 'users', user.id), user)
@@ -227,6 +255,7 @@ export const useUserProvider = () => {
         getPersonalByType,
         getClients,
         filterCortes,
-        disponibilityOfBarber
+        disponibilityOfBarber,
+        registerEmployee
     };
 };

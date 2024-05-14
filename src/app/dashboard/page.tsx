@@ -25,7 +25,7 @@ const buttons = [
 
 function Dashboard() {
   const [clients, setClients] = useState([]);
-  const { getUser, getUsersByRole } = useUser();
+  const { getUser, getUsersByRole, registerEmployee } = useUser();
   const { authState, signOutUser } = useAuth();
   const [firstTime, setFirstTime] = useState(true)
   const [type, setType] = useState<'barberia' | 'peluqueria' | 'belleza'>('barberia')
