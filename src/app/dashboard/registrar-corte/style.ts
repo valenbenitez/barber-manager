@@ -10,6 +10,14 @@ export const Title = styled.label`
   text-align: center;
 `
 
+export const BetweenContainer = styled.div`
+  width: 62%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+`
+
 export const Container = styled.div`
   width: 100%;
   display: flex;

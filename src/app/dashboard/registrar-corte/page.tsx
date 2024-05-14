@@ -129,12 +129,15 @@ export default function RegistrarCorte() {
                                 <Styled.Option value={barber.id} key={barber.phone}>{barber.name}</Styled.Option>
                             ))}
                         </Styled.FormSelect>
-                        <Styled.FormSelect onChange={handleChangeServices}>
-                            <Styled.Option>Seleccionar servicio</Styled.Option>
-                            {servicesArray?.length && servicesArray.map(service => (
-                                <Styled.Option value={service.name} key={service.name}>{service.name}</Styled.Option>
-                            ))}
-                        </Styled.FormSelect>
+                        <Styled.BetweenContainer>
+                            <Styled.FormSelect onChange={handleChangeServices}>
+                                <Styled.Option>Seleccionar servicio</Styled.Option>
+                                {servicesArray?.length && servicesArray.map(service => (
+                                    <Styled.Option value={service.name} key={service.name}>{service.name}</Styled.Option>
+                                ))}
+                            </Styled.FormSelect>
+                            <Styled.InputLogin placeholder="Escribir servicio" name='service' value={service} onChange={handleChangeServices} />
+                        </Styled.BetweenContainer>
                         <Styled.FormSelect onChange={handleChangeExtras}>
                             <Styled.Option>Seleccionar extras</Styled.Option>
                             {extrasArray?.length && extrasArray.map(service => (
