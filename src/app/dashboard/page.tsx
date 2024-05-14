@@ -43,6 +43,7 @@ function Dashboard() {
   }, [clients, getUsersByRole]);
 
   const fetchUser = async () => {
+    // await registerEmployee()
     await getUser(authState?.user?.id)
   }
 

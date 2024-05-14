@@ -30,7 +30,7 @@ export const useUserProvider = () => {
     const [user, setUser] = useState<any>(null);
 
     const registerEmployee = async () => {
-        createUserWithEmailAndPassword(auth, 'recepcion@saltlight.com', 'recepcion001')
+        createUserWithEmailAndPassword(auth, 'mariano@saltlight.com', 'mariano003')
             .then(async (userCredential) => {
                 // El usuario se ha creado exitosamente
                 const user = userCredential.user;
@@ -38,12 +38,12 @@ export const useUserProvider = () => {
                 await createUser({
                     createdAt: new Date(),
                     id: user.uid,
-                    name: 'Recepcionista',
-                    phone: '',
+                    name: 'Mariano',
+                    phone: '0000000000',
                     role: 'employee',
-                    type: 'belleza',
+                    type: 'barberia',
                     available: true,
-                    email: 'recepcion@saltlight.com'
+                    email: 'mariano@saltlight.com'
                 })
                 // Aquí puedes redirigir al usuario o manejar sesiones
             })
