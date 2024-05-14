@@ -27,9 +27,9 @@ export default function Products() {
                 <Flex wrap gap="small">
                     {Array.isArray(products) && products?.length > 0 && products.map(product => (
                         <Card key={product.id} title={product?.name || 'Product name'} bordered={false} style={{ width: 300 }}>
-                            <p>{product.priceOfPurchase}</p>
-                            <p>{product?.priceOfSell}</p>
-                            <p>{product.description}</p>
+                            <p>Precio de compra: ${product.priceOfPurchase}</p>
+                            <p>Precio de venta: ${product?.priceOfSell}</p>
+                            <p>Descripcion: {product.description}</p>
                         </Card>
                     ))}
                 </Flex>
