@@ -12,6 +12,7 @@ import PeluqueriaInfo from "./components/PeluqueriaInfo";
 import BellezaInfo from "./components/BellezaInfo";
 import { CenterContainer } from "./barberos/style";
 import EmployeesInfo from "./components/EmployeesInfo";
+import ModalSellProduct from "./products/components/ModalSellProduct";
 
 //TODO: ARREGLAR BOTONES EN MOBILE
 
@@ -19,7 +20,7 @@ const buttons = [
   // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
   { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
   { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
-  { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
+  // { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
   // { path: '/dashboard/barber-view', icon: '/navbar-icons/view.svg', label: 'Vista barbero' },
 ]
 
@@ -28,6 +29,7 @@ function Dashboard() {
   const { getUser, getUsersByRole, registerEmployee } = useUser();
   const { authState, signOutUser } = useAuth();
   const [firstTime, setFirstTime] = useState(true)
+  const [modalSellProduct, setModalSellProduct] = useState(false)
   const [type, setType] = useState<'barberia' | 'peluqueria' | 'belleza'>('barberia')
 
   useEffect(() => {
@@ -65,13 +67,20 @@ function Dashboard() {
           <ItemContainer>
             <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
-              {buttons?.length && buttons.map(button => (
-                <Link legacyBehavior href={button.path} key={button.path}>
-                  <a href={button.path} key={button.path} style={{ textDecoration: 'none', color: '#000' }} >
-                    <ItemColumn icon={button.icon} label={button.label} />
-                  </a>
-                </Link>
-              ))}
+              {!modalSellProduct && (
+                <>
+                  {buttons?.length && buttons.map(button => (
+                    <Link legacyBehavior href={button.path} key={button.path}>
+                      <a href={button.path} key={button.path} style={{ textDecoration: 'none', color: '#000' }} >
+                        <ItemColumn icon={button.icon} label={button.label} />
+                      </a>
+                    </Link>
+                  ))}
+                  <span onClick={() => setModalSellProduct(true)} >
+                    <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
+                  </span>
+                </>
+              )}
             </RowContainer>
             <EmployeesInfo />
           </ItemContainer>
@@ -84,6 +93,7 @@ function Dashboard() {
           <ItemContainer>
             {componentsOfInfo}
           </ItemContainer>
+          <ModalSellProduct isModalOpen={modalSellProduct} setIsModalOpen={setModalSellProduct} />
         </ColumnContainer>
       </Container>
       <br />

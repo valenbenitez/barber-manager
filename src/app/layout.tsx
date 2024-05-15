@@ -6,6 +6,7 @@ import { UserProvider } from "@/hooks/useUser";
 import { CortesProvider } from "@/hooks/useCortes";
 import { SessionProvider } from "next-auth/react";
 import { ProductsProvider } from "@/hooks/useProduct";
+import { SalesProvider } from "@/hooks/useSales";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +33,9 @@ export default function RootLayout({
           <AuthProvider>
             <CortesProvider>
               <ProductsProvider>
-                {children}
+                <SalesProvider>
+                  {children}
+                </SalesProvider>
               </ProductsProvider>
             </CortesProvider>
           </AuthProvider>

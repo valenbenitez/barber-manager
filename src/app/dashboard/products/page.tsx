@@ -29,6 +29,7 @@ export default function Products() {
                         <Card key={product.id} title={product?.name || 'Product name'} bordered={false} style={{ width: 300 }}>
                             <p>Precio de compra: ${product.priceOfPurchase}</p>
                             <p>Precio de venta: ${product?.priceOfSell}</p>
+                            <p>Stock: {product?.stock}</p>
                             <p>Descripcion: {product.description}</p>
                         </Card>
                     ))}

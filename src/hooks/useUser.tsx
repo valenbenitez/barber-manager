@@ -90,9 +90,9 @@ export const useUserProvider = () => {
         });
     };
 
-    const getUsersByRole = async (): Promise<User[]> => {
+    const getUsersByRole = async (role: string = 'client'): Promise<User[]> => {
         const users: User[] = [];
-        const usersQuery = query(collection(db, 'users'), where('role', '==', 'client'));
+        const usersQuery = query(collection(db, 'users'), where('role', '==', role));
         try {
             const querySnapshot = await getDocs(usersQuery);
             querySnapshot.forEach((doc) => {
