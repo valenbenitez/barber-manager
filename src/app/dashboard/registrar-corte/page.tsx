@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function RegistrarCorte() {
+    const [isLoading, setIsLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [newClient, setNewClient] = useState(initialNewClient);
     const [personalBarberia, setPersonalBarberia] = useState<User[]>([])
@@ -83,6 +84,7 @@ export default function RegistrarCorte() {
     };
 
     const handleSubmit = async () => {
+        setIsLoading(true)
         const barberSelectedData = barberSelected?.length > 0 ? await getUserById(barberSelected) : false
         const id = uuidv4();
         const corteId = uuidv4();
@@ -110,6 +112,7 @@ export default function RegistrarCorte() {
         })
         setNewClient(initialNewClient)
         setOpenSnackbar(true)
+        setIsLoading(false)
         return newUser
     }
     return (
@@ -164,7 +167,15 @@ export default function RegistrarCorte() {
                             value={newClient.phone}
                             onChange={handleChange}
                         />
-                        <Styled.SubmitButton onClick={handleSubmit}>Registrar</Styled.SubmitButton>
+                        {isLoading ? (
+                            <>
+                                <label>Cargando...</label>
+                            </>
+                        ) : (
+                            <>
+                                <Styled.SubmitButton onClick={handleSubmit} disabled={isLoading}>Registrar</Styled.SubmitButton>
+                            </>
+                        )}
                     </Styled.ItemContainer>
                     <br />
                     <br />
