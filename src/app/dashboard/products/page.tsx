@@ -1,13 +1,35 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 import { useProducts } from '@/hooks/useProduct'
 import { Button, Card, Flex } from "antd";
 import { useRouter } from 'next/navigation';
+import { useSales } from '@/hooks/useSales';
+import DataTable from 'react-data-table-component';
 
 export default function Products() {
+    const [sales, setSales] = useState([])
     const { getProducts, products, setProducts } = useProducts();
+    const { getSales } = useSales();
     const router = useRouter();
+    const columns = [
+        {
+            name: 'Vendedor',
+            selector: row => row?.seller?.sellerName,
+        },
+        {
+            name: 'Cliente',
+            selector: row => row?.client?.clientName,
+        },
+        {
+            name: 'Total',
+            selector: row => row.totalSale,
+        },
+        {
+            name: 'Productos',
+            selector: row => Array.isArray(row.soldProducts) && (row.soldProducts.map(prod => `x${prod.quantityToSell} - ${prod.name},`))[0],
+        },
+    ];
 
     useEffect(() => {
         fetchProducts()
@@ -15,6 +37,8 @@ export default function Products() {
 
     const fetchProducts = async () => {
         await getProducts()
+        const sales = await getSales()
+        setSales(sales)
     }
 
     return (
@@ -34,6 +58,10 @@ export default function Products() {
                         </Card>
                     ))}
                 </Flex>
+                <DataTable
+                    columns={columns}
+                    data={sales}
+                />
             </Styled.ItemContainer>
         </Styled.Container>
     )

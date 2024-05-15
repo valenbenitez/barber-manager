@@ -77,7 +77,7 @@ const ModalSellProduct = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolea
                     sellerName: sellerSelected.name,
                 },
                 soldProducts: productsSelected,
-                totalSale: 0,
+                totalSale: totalSale,
                 paymentMethod: 'efectivo'
             }
             await createSale(post)
