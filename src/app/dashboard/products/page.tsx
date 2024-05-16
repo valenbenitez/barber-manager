@@ -29,11 +29,30 @@ export default function Products() {
             name: 'Productos',
             selector: row => Array.isArray(row.soldProducts) && (row.soldProducts.map(prod => `x${prod.quantityToSell} - ${prod.name},`))[0],
         },
+        {
+            name: 'Fecha',
+            selector: row => formatDate(row.saleDate),
+            sortable: true
+        },
     ];
 
     useEffect(() => {
         fetchProducts()
     }, [])
+
+    function formatDate(
+        dateObject: { seconds: number; nanoseconds: number } | any
+    ) {
+        const unixTimestamp =
+            dateObject?.seconds * 1000 + dateObject?.nanoseconds / 1000000; // Convertir a milisegundos
+        const date = new Date(unixTimestamp);
+
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+    }
 
     const fetchProducts = async () => {
         await getProducts()
