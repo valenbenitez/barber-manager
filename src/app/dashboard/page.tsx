@@ -13,6 +13,7 @@ import BellezaInfo from "./components/BellezaInfo";
 import { CenterContainer } from "./barberos/style";
 import EmployeesInfo from "./components/EmployeesInfo";
 import ModalSellProduct from "./products/components/ModalSellProduct";
+import CreateAppointment from "./appointments/components/CreateAppointment";
 
 //TODO: ARREGLAR BOTONES EN MOBILE
 
@@ -20,7 +21,7 @@ const buttons = [
   // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
   { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
   { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
-  // { path: '/dashboard/registrar-venta-producto', icon: '/navbar-icons/products.svg', label: 'Registrar venta' },
+  { path: '/dashboard/appointments', icon: '/navbar-icons/see-appointments.svg', label: 'Ver turnos' },
   // { path: '/dashboard/barber-view', icon: '/navbar-icons/view.svg', label: 'Vista barbero' },
 ]
 
@@ -29,6 +30,7 @@ function Dashboard() {
   const { getUser, getUsersByRole, registerEmployee } = useUser();
   const { authState, signOutUser } = useAuth();
   const [firstTime, setFirstTime] = useState(true)
+  const [drawerCreateAppointment, setDrawerCreateAppointment] = useState(false)
   const [modalSellProduct, setModalSellProduct] = useState(false)
   const [type, setType] = useState<'barberia' | 'peluqueria' | 'belleza'>('barberia')
 
@@ -67,7 +69,10 @@ function Dashboard() {
           <ItemContainer>
             <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
-              {!modalSellProduct && (
+              <span onClick={() => setDrawerCreateAppointment(true)}>
+                <ItemColumn icon={'/navbar-icons/appointment.svg'} label={'Registrar turno'} />
+              </span>
+              {!modalSellProduct && !drawerCreateAppointment && (
                 <>
                   {buttons?.length && buttons.map(button => (
                     <Link legacyBehavior href={button.path} key={button.path}>
@@ -76,11 +81,11 @@ function Dashboard() {
                       </a>
                     </Link>
                   ))}
-                  <span onClick={() => setModalSellProduct(true)} >
-                    <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
-                  </span>
                 </>
               )}
+              <span onClick={() => setModalSellProduct(true)} >
+                <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
+              </span>
             </RowContainer>
             <EmployeesInfo />
           </ItemContainer>
@@ -93,6 +98,7 @@ function Dashboard() {
           <ItemContainer>
             {componentsOfInfo}
           </ItemContainer>
+          <CreateAppointment open={drawerCreateAppointment} setOpen={setDrawerCreateAppointment} />
           <ModalSellProduct isModalOpen={modalSellProduct} setIsModalOpen={setModalSellProduct} />
         </ColumnContainer>
       </Container>
