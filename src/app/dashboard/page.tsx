@@ -22,6 +22,7 @@ const buttons = [
   { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
   { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
   { path: '/dashboard/appointments', icon: '/navbar-icons/see-appointments.svg', label: 'Ver turnos' },
+  { path: '/dashboard/registrar-cliente', icon: '/navbar-icons/users.svg', label: 'Registrar cliente' },
   // { path: '/dashboard/barber-view', icon: '/navbar-icons/view.svg', label: 'Vista barbero' },
 ]
 
