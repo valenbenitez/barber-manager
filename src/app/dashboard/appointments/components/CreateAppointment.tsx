@@ -48,8 +48,10 @@ export default function CreateAppointment({ open, setOpen }: { open: boolean, se
     };
 
     const handleClientSelected = async (userId: string) => {
-        const user = await getUserById(userId)
-        setClient(user)
+        if (userId[0]) {
+            const user = await getUserById(userId[0])
+            setClient(user)
+        }
     }
 
     const handleSellerSelected = async (userId: string) => {
@@ -148,7 +150,7 @@ export default function CreateAppointment({ open, setOpen }: { open: boolean, se
                             <Form.Item
                                 name="personal"
                                 label="Personal:"
-                                rules={[{ required: true, message: 'Please select an owner' }]}
+                                rules={[{ required: true, message: 'Please select a personal' }]}
                             >
                                 <Select
                                     style={{ width: '100%' }}
@@ -162,7 +164,7 @@ export default function CreateAppointment({ open, setOpen }: { open: boolean, se
                             <Form.Item
                                 name="servicio"
                                 label="Servicio:"
-                                rules={[{ required: true, message: 'Please select an owner' }]}
+                                rules={[{ required: true, message: 'Please select a service' }]}
                             >
                                 <Select
                                     style={{ width: '100%' }}
@@ -178,13 +180,16 @@ export default function CreateAppointment({ open, setOpen }: { open: boolean, se
                             <Form.Item
                                 name="cliente"
                                 label="Cliente:"
-                                rules={[{ required: true, message: 'Please select an owner' }]}
+                                rules={[{ required: true, message: 'Please select a client' }]}
                             >
                                 <Select
                                     style={{ width: '100%' }}
                                     onChange={handleClientSelected}
                                     placeholder='Seleccionar cliente'
                                     options={clients}
+                                    mode="multiple"
+                                    allowClear
+                                    optionFilterProp='label'
                                 />
                             </Form.Item>
                         </Col>
