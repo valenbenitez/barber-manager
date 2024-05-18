@@ -70,9 +70,11 @@ function Dashboard() {
           <ItemContainer>
             <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
-              <span onClick={() => setDrawerCreateAppointment(true)}>
-                <ItemColumn icon={'/navbar-icons/appointment.svg'} label={'Registrar turno'} />
-              </span>
+              {!modalSellProduct && !drawerCreateAppointment && (
+                <span onClick={() => setDrawerCreateAppointment(true)}>
+                  <ItemColumn icon={'/navbar-icons/appointment.svg'} label={'Registrar turno'} />
+                </span>
+              )}
               {!modalSellProduct && !drawerCreateAppointment && (
                 <>
                   {buttons?.length && buttons.map(button => (
@@ -84,9 +86,11 @@ function Dashboard() {
                   ))}
                 </>
               )}
-              <span onClick={() => setModalSellProduct(true)} >
-                <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
-              </span>
+              {!modalSellProduct && !drawerCreateAppointment && (
+                <span onClick={() => setModalSellProduct(true)} >
+                  <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
+                </span>
+              )}
             </RowContainer>
             <EmployeesInfo />
           </ItemContainer>
