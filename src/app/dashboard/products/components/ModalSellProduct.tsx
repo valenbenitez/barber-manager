@@ -70,7 +70,7 @@ const ModalSellProduct = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolea
                 saleDate: new Date(),
                 client: {
                     clientId: clientSelected.id,
-                    clientName: sellerSelected.name,
+                    clientName: clientSelected.name,
                 },
                 seller: {
                     sellerId: sellerSelected.id,
