@@ -65,11 +65,21 @@ export const useProductsProvider = () => {
         })
     }
 
+    const updateProduct = async (productId: string, data: Product): Promise<void> => {
+        console.log({ userId: productId, data });
+        const productRef = doc(db, 'products', productId);
+        const productUpdated = await updateDoc(productRef, { ...data });
+        const newProduct = await getProductById(productId);
+        console.log(newProduct);
+        return;
+    };
+
     return {
         products,
         setProducts,
         createProduct,
         getProductById,
         getProducts,
+        updateProduct,
     }
 }

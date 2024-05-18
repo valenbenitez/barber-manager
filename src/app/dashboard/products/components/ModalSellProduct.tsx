@@ -14,7 +14,7 @@ const ModalSellProduct = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolea
     const [employees, setEmployees] = useState<any>([])
     const [clientSelected, setClient] = useState<any>({})
     const [sellerSelected, setSeller] = useState<any>({})
-    const { getProducts, products } = useProducts();
+    const { getProducts, products, updateProduct } = useProducts();
     const { createSale } = useSales();
     const { getUsersByRole, getUserById } = useUser();
     const options: SelectProps['options'] = [];
@@ -79,6 +79,10 @@ const ModalSellProduct = ({ isModalOpen, setIsModalOpen }: { isModalOpen: boolea
                 soldProducts: productsSelected,
                 totalSale: totalSale,
                 paymentMethod: 'efectivo'
+            }
+            for (const product of productsSelected) {
+                const stockUpdated = product.stock - product.quantityToSell;
+                await updateProduct(product.id, { stock: stockUpdated });
             }
             await createSale(post)
             setProductsSelected([])
