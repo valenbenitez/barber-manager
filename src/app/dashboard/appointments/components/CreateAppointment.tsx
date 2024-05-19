@@ -51,6 +51,9 @@ export default function CreateAppointment({ open, setOpen }: { open: boolean, se
         if (userId[0]) {
             const user = await getUserById(userId[0])
             setClient(user)
+            return
+        } else {
+            setClient({})
         }
     }
 

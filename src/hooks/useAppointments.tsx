@@ -1,6 +1,7 @@
 'use client'
 import {
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -65,11 +66,32 @@ export const useAppointmentsProvider = () => {
         })
     }
 
+    async function deleteAppointment(appointmentId: string) {
+        try {
+            await deleteDoc(doc(db, 'appointments', appointmentId));
+            await getAppointments();
+            console.log(`Documento con ID ${appointmentId} eliminado correctamente.`);
+        } catch (error) {
+            console.error("Error eliminando el documento: ", error);
+        }
+    }
+
+    const updateAppointment = async (appointmentId: string, data: any): Promise<void> => {
+        console.log({ userId: appointmentId, data });
+        const appointmentRef = doc(db, 'appointments', appointmentId);
+        await updateDoc(appointmentRef, { ...data });
+        const newProduct = await getAppointments();
+        console.log(newProduct);
+        return;
+    };
+
     return {
         appointments,
         setAppointments,
         createAppointment,
         getAppointmentById,
         getAppointments,
+        deleteAppointment,
+        updateAppointment,
     }
 }

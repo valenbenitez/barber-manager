@@ -7,6 +7,14 @@ export const StartContainer = styled.div`
   justify-content: flex-start;
   gap: 4px;
 `
+export const EndContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  /* justify-content: flex-end; */
+  gap: 4px;
+  flex-direction: column;
+`
 
 export const AppointmentContainer = styled.div`
   border-radius: 12px;
@@ -26,11 +34,12 @@ export const Title = styled.label`
 `
 
 export const BetweenContainer = styled.div`
-  width: 62%;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  padding: 10px;
 `
 
 export const Container = styled.div`

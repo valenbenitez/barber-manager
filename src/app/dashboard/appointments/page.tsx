@@ -2,19 +2,26 @@
 import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 import { useAppointments } from '@/hooks/useAppointments';
-import { Card, Input } from 'antd';
+import { Button, Card, Flex, Input } from 'antd';
 import { Spin } from 'antd';
+import UpdateAppointment from './components/UpdateAppointment';
 
 export default function Page() {
     const [isLoading, setIsLoading] = useState(false)
+    const [updateAppointment, setUpdateAppointment] = useState(false)
     const [appointmentsFiltered, setAppointmentsFiltered] = useState<any>({});
+    const [appointmentToUpdate, setAppointmentToUpdate] = useState<any>('');
     const [allAppointments, setAllAppointments] = useState<any>({});
     const [filterDate, setFilterDate] = useState<any>('');
-    const { getAppointments } = useAppointments();
+    const { getAppointments, deleteAppointment, appointments } = useAppointments();
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        organizeAppointments(appointments)
+    }, [appointments])
 
     const handleDateChange = (e) => {
         setFilterDate(e.target.value);
@@ -32,13 +39,13 @@ export default function Page() {
 
     const organizeAppointments = (appointments) => {
         const sortedAppointments = appointments.sort((a, b) => {
-            const dateA = new Date(a.appointmentDate.seconds * 1000 + a.appointmentDate.nanoseconds / 1000000);
-            const dateB = new Date(b.appointmentDate.seconds * 1000 + b.appointmentDate.nanoseconds / 1000000);
+            const dateA = new Date(a.appointmentDate?.seconds * 1000 + a.appointmentDate?.nanoseconds / 1000000);
+            const dateB = new Date(b.appointmentDate?.seconds * 1000 + b.appointmentDate?.nanoseconds / 1000000);
             return dateA.getTime() - dateB.getTime();
         });
 
         const groupedByDate = sortedAppointments.reduce((acc, appointment) => {
-            const date = new Date(appointment.appointmentDate.seconds * 1000 + appointment.appointmentDate.nanoseconds / 1000000);
+            const date = new Date(appointment.appointmentDate?.seconds * 1000 + appointment.appointmentDate?.nanoseconds / 1000000);
             const dateKey = formatDate(date); // Utilizar la función formatDate para evitar problemas de zona horaria
             if (!acc[dateKey]) {
                 acc[dateKey] = [];
@@ -46,7 +53,6 @@ export default function Page() {
             acc[dateKey].push(appointment);
             return acc;
         }, {});
-
         setAppointmentsFiltered(groupedByDate);
         setAllAppointments(groupedByDate);
         setIsLoading(false)
@@ -75,6 +81,11 @@ export default function Page() {
         return `${day}/${month}/${year}`;
     };
 
+    const handleUpdateAppointment = (appointmentId: string) => {
+        setAppointmentToUpdate(appointmentId)
+        setUpdateAppointment(true)
+    }
+
     return (
         <Styled.Container>
             <Styled.ItemContainer>
@@ -86,27 +97,36 @@ export default function Page() {
                         {isLoading && (
                             <Spin />
                         )}
-                        {Object.entries(appointmentsFiltered).map(([date, appointments]) => (
+                        {Object.entries(appointmentsFiltered).reverse().map(([date, appointments]) => (
                             <div key={date}>
                                 <h4>{date}</h4>
-                                <div>
+                                <Flex wrap gap="small">
                                     {Array.isArray(appointments) && appointments.map(appointment => (
-                                        <Card key={appointment.id} style={{ marginTop: '6px' }}>
-                                            <label>Cliente: <b>{appointment.clientName}</b></label>
-                                            <br />
-                                            <label>Servicio: <b>{appointment.type}</b></label>
-                                            <br />
-                                            <p>Descripcion: {appointment.description}</p>
-                                            <p>Horario: <b>{new Date(appointment.appointmentDate.seconds * 1000).toLocaleTimeString()}</b></p>
+                                        <Card key={appointment.id} style={{ marginTop: '6px', width: '400px' }}>
+                                            <Styled.ColumnContainer>
+                                                <div>
+                                                    <label>Cliente: <b>{appointment.clientName}</b></label>
+                                                    <br />
+                                                    <label>Servicio: <b>{appointment.type}</b></label>
+                                                    <br />
+                                                    <p>Descripcion: {appointment.description}</p>
+                                                    <p>Horario: <b>{new Date(appointment.appointmentDate?.seconds * 1000).toLocaleTimeString()}</b></p>
+                                                </div>
+                                                <Styled.EndContainer>
+                                                    <Button danger={true} onClick={() => deleteAppointment(appointment.id)}>Eliminar turno</Button>
+                                                    <Button type='primary' onClick={() => handleUpdateAppointment(appointment.id)} >Editar turno</Button>
+                                                </Styled.EndContainer>
+                                            </Styled.ColumnContainer>
                                         </Card>
                                     ))}
-                                </div>
+                                </Flex>
                                 <br />
                             </div>
                         ))}
                     </Styled.ColumnContainer>
                 </Styled.StartContainer>
             </Styled.ItemContainer>
+            <UpdateAppointment open={updateAppointment} setOpen={setUpdateAppointment} appointmentId={appointmentToUpdate} />
         </Styled.Container>
     )
 }
