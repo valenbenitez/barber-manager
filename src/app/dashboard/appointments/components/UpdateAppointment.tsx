@@ -118,7 +118,6 @@ const UpdateAppointment = ({
             newTime.getSeconds(),
         );
         setSelectedDate(newDate);
-        onClose()
     };
 
     const handleDescription = async (e: any) => {
