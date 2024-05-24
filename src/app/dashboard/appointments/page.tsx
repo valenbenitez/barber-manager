@@ -5,15 +5,20 @@ import { useAppointments } from '@/hooks/useAppointments';
 import { Button, Card, Flex, Input } from 'antd';
 import { Spin } from 'antd';
 import UpdateAppointment from './components/UpdateAppointment';
+import { useCortes } from '@/hooks/useCortes';
+import { v4 as uuidv4 } from 'uuid';
+import SimpleSnackbar from '@/components/SimpleSnackbar/SimpleSnackbar';
 
 export default function Page() {
+    const [turnoCreated, setTurnoCreated] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [updateAppointment, setUpdateAppointment] = useState(false)
     const [appointmentsFiltered, setAppointmentsFiltered] = useState<any>({});
     const [appointmentToUpdate, setAppointmentToUpdate] = useState<any>('');
     const [allAppointments, setAllAppointments] = useState<any>({});
     const [filterDate, setFilterDate] = useState<any>('');
-    const { getAppointments, deleteAppointment, appointments } = useAppointments();
+    const { getAppointments, deleteAppointment, appointments, getAppointmentById } = useAppointments();
+    const { createCorte } = useCortes();
 
     useEffect(() => {
         fetchData();
@@ -86,6 +91,28 @@ export default function Page() {
         setUpdateAppointment(true)
     }
 
+    const handleCreateCorte = async (appointmentId: string) => {
+        setIsLoading(true)
+        const corteId = uuidv4();
+        const appointment = await getAppointmentById(appointmentId)
+        console.log(appointment)
+        const newCorte = await createCorte({
+            barberName: appointment.barberName,
+            barberId: appointment.barberId,
+            createdDate: new Date(),
+            id: corteId,
+            price: 0,
+            status: 'En proceso',
+            clientName: appointment.clientName,
+            clientPhone: appointment.clientPhone,
+            service: appointment.type,
+            type: appointment.type,
+            extras: [],
+            description: appointment?.description
+        })
+        setTurnoCreated(true)
+    }
+
     return (
         <Styled.Container>
             <Styled.ItemContainer>
@@ -115,6 +142,7 @@ export default function Page() {
                                                 <Styled.EndContainer>
                                                     <Button danger={true} onClick={() => deleteAppointment(appointment.id)}>Eliminar turno</Button>
                                                     <Button type='primary' onClick={() => handleUpdateAppointment(appointment.id)} >Editar turno</Button>
+                                                    <Button type='primary' onClick={() => handleCreateCorte(appointment.id)} >Iniciar turno</Button>
                                                 </Styled.EndContainer>
                                             </Styled.ColumnContainer>
                                         </Card>
@@ -125,6 +153,7 @@ export default function Page() {
                         ))}
                     </Styled.ColumnContainer>
                 </Styled.StartContainer>
+                <SimpleSnackbar open={turnoCreated} setOpen={setTurnoCreated} title='Turno en proceso' />
             </Styled.ItemContainer>
             <UpdateAppointment open={updateAppointment} setOpen={setUpdateAppointment} appointmentId={appointmentToUpdate} />
         </Styled.Container>
