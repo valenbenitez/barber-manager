@@ -16,7 +16,7 @@ function formatSecondsAndNanosecondsToDate(seconds, nanoseconds) {
 const ExpandedComponent = ({ data, fetchCortes }) => {
     const [amount, setAmount] = useState(0)
     const [error, setError] = useState(false)
-    const { updateCorte } = useCortes();
+    const { updateCorte, deleteCorte } = useCortes();
 
     async function handleCorteInProcess() {
         const newCortes = await updateCorte(data.id, { status: 'En proceso' })
@@ -57,29 +57,6 @@ const ExpandedComponent = ({ data, fetchCortes }) => {
     )
 }
 
-const columns = [
-    {
-        name: 'Cliente',
-        selector: row => row.clientName,
-    },
-    {
-        name: 'Barbero',
-        selector: row => row.barberName,
-    },
-    {
-        name: 'Estado',
-        selector: row => row.status,
-    },
-    {
-        name: 'Registrado',
-        selector: row => formatSecondsAndNanosecondsToDate(row.createdDate?.seconds, row.createdDate?.nanoseconds),
-    },
-    {
-        name: 'Cobrar',
-        selector: row => row?.toCollect ? 'Si' : 'No',
-    }
-];
-
 interface ShaveCardProps {
     status: 'Terminado' | 'En proceso' | 'En espera'
     type?: 'barberia' | 'peluqueria' | 'belleza'
@@ -88,9 +65,35 @@ interface ShaveCardProps {
 function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
     const [updateCortes, setUpdateCortes] = useState(false);
     const [cortes, setCortes] = useState([]);
-    const { getCortes } = useCortes();
+    const { getCortes, deleteCorte } = useCortes();
     const { cortesEnEsperaRealTime, cortesEnProcesoRealTime, cortesTerminadosRealTime } = useCortesRealTime(type);
     const [firstTime, setFirstTime] = useState(true)
+    const columns = [
+        {
+            name: 'Cliente',
+            selector: row => row.clientName,
+        },
+        {
+            name: 'Barbero',
+            selector: row => row.barberName,
+        },
+        {
+            name: 'Estado',
+            selector: row => row.status,
+        },
+        {
+            name: 'Registrado',
+            selector: row => formatSecondsAndNanosecondsToDate(row.createdDate?.seconds, row.createdDate?.nanoseconds),
+        },
+        {
+            name: 'Cobrar',
+            selector: row => row?.toCollect ? 'Si' : 'No',
+        },
+        {
+            name: 'Action',
+            selector: row => <Button onClick={() => deleteCorte(row.id)} >Eliminar corte</Button>,
+        },
+    ];
 
     useEffect(() => {
         fetchCortes();

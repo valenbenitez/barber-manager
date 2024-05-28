@@ -1,6 +1,7 @@
 'use client'
 import {
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -82,6 +83,17 @@ export const useCortesProvider = () => {
         const cortesUpdated = await getCortes()
         return cortesUpdated
     }
+
+    async function deleteCorte(corteId: string) {
+        try {
+            await deleteDoc(doc(db, 'cortes', corteId));
+            await getCortes();
+            console.log(`Documento con ID ${corteId} eliminado correctamente.`);
+        } catch (error) {
+            console.error("Error eliminando el documento: ", error);
+        }
+    }
+
     return {
         createCorte,
         getCorteById,
@@ -91,6 +103,7 @@ export const useCortesProvider = () => {
         cortesEnEspera,
         cortesEnProceso,
         cortesTerminados,
-        setCortes
+        setCortes,
+        deleteCorte,
     }
 }
