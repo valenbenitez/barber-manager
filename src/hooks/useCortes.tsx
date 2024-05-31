@@ -5,6 +5,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    orderBy,
     query,
     setDoc,
     updateDoc,
@@ -35,7 +36,7 @@ export const useCortesProvider = () => {
 
     const getCortes = async (type: 'barberia' | 'peluqueria' | 'belleza' = 'barberia') => {
         const cortes: Corte[] | any = [];
-        const q = query(collection(db, 'cortes'), where('type', '==', type));
+        const q = query(collection(db, 'cortes'), where('type', '==', type), orderBy('createdDate', 'desc'));
         try {
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {

@@ -3,6 +3,7 @@ import { db } from '../config/firebase'; // Asegúrate de que la ruta a tu confi
 import {
     collection,
     onSnapshot,
+    orderBy,
     query,
     where
 } from 'firebase/firestore';
@@ -14,7 +15,7 @@ export const useCortesRealTime = (type = 'barberia') => {
     const [cortesTerminadosRealTime, setCortesTerminados] = useState([]);
 
     useEffect(() => {
-        const q = query(collection(db, 'cortes'), where('type', '==', type));
+        const q = query(collection(db, 'cortes'), where('type', '==', type), orderBy('createdDate', 'desc'));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const cortesUpdated: any = snapshot.docs.map(doc => ({
                 id: doc.id,
