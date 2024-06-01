@@ -91,7 +91,7 @@ function ShaveCard({ status, type = 'barberia' }: ShaveCardProps) {
         },
         {
             name: 'Action',
-            selector: row => <Button onClick={() => deleteCorte(row.id)} >Eliminar corte</Button>,
+            selector: row => row?.status !== 'Terminado' && <Button onClick={() => deleteCorte(row.id)} >Eliminar corte</Button>,
         },
     ];
 

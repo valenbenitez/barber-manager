@@ -12,8 +12,9 @@ import {
     where,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { Corte } from '@/models/cortes';
+import { isToday, isThisWeek, isThisMonth } from 'date-fns';
 
 const CortesContext = createContext<any>({})
 
@@ -31,11 +32,18 @@ export const useCortesProvider = () => {
     const [cortesEnEspera, setCortesEnEspera] = useState([]);
     const [cortesEnProceso, setCortesEnProceso] = useState([]);
     const [cortesTerminados, setCortesTerminados] = useState([]);
-
-
+    const [cortesOfDay, setCortesOfDay] = useState([]);
+    const [cortesOfWeek, setCortesOfWeek] = useState([]);
+    const [cortesOfMonth, setCortesOfMonth] = useState([]);
+    const [billedToday, setBilledToday] = useState(0);
+    const [billedWeek, setBilledWeek] = useState(0);
+    const [billedMonth, setBilledMonth] = useState(0);
 
     const getCortes = async (type: 'barberia' | 'peluqueria' | 'belleza' = 'barberia') => {
         const cortes: Corte[] | any = [];
+        let totalOfDay = 0
+        let totalOfWeek = 0
+        let totalOfMonth = 0
         const q = query(collection(db, 'cortes'), where('type', '==', type), orderBy('createdDate', 'desc'));
         try {
             const querySnapshot = await getDocs(q);
@@ -46,13 +54,40 @@ export const useCortesProvider = () => {
         } catch (error) {
             console.error('Error fetching users:', error);
         }
-        let waiting = cortes.filter(corte => corte.status === 'En espera')
-        let process = cortes.filter(corte => corte.status === 'En proceso')
-        let done = cortes.filter(corte => corte.status === 'Terminado')
+
+        const cortesHoy = cortes.filter(corte => isToday(new Date(corte.createdDate.seconds * 1000)));
+        const cortesEstaSemana = cortes.filter(corte => isThisWeek(new Date(corte.createdDate.seconds * 1000), { weekStartsOn: 1 }));
+        const cortesEsteMes = cortes.filter(corte => isThisMonth(new Date(corte.createdDate.seconds * 1000)));
+        cortesHoy.forEach((op) => {
+            const price = op?.price
+            const cleanedString = price.replace(/\./g, '');
+            totalOfDay = totalOfDay + Number(cleanedString)
+        });
+        cortesEstaSemana.forEach((op) => {
+            const price = op?.price
+            const cleanedString = price.replace(/\./g, '');
+            totalOfWeek = totalOfWeek + Number(cleanedString)
+        });
+        cortesEsteMes.forEach((op) => {
+            const price = op?.price
+            const cleanedString = price.replace(/\./g, '');
+            // console.log(cleanedString, op.id)
+            totalOfMonth = totalOfMonth + Number(cleanedString)
+        });
+        const waiting = cortes.filter(corte => corte.status === 'En espera')
+        const process = cortes.filter(corte => corte.status === 'En proceso')
+        const done = cortes.filter(corte => corte.status === 'Terminado')
+
         setCortes(cortes)
         setCortesEnEspera(waiting)
         setCortesEnProceso(process)
         setCortesTerminados(done)
+        setCortesOfDay(cortesHoy)
+        setCortesOfWeek(cortesEstaSemana)
+        setCortesOfMonth(cortesEsteMes)
+        setBilledToday(totalOfDay)
+        setBilledWeek(totalOfWeek)
+        setBilledMonth(totalOfMonth)
         return cortes;
     }
 
@@ -75,6 +110,21 @@ export const useCortesProvider = () => {
                 return null
             }
         })
+    }
+
+    const getCorteByBarberId = async (barberId: string) => {
+        const cortes: Corte[] | any = [];
+        const q = query(collection(db, 'cortes'), where(barberId, '==', barberId))
+        try {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const corteData = doc.data();
+                cortes.push(corteData);
+            });
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+        return cortes
     }
 
     const updateCorte = async (corteId: string, data: any) => {
@@ -100,10 +150,17 @@ export const useCortesProvider = () => {
         getCorteById,
         updateCorte,
         getCortes,
+        getCorteByBarberId,
         cortes,
         cortesEnEspera,
         cortesEnProceso,
         cortesTerminados,
+        cortesOfDay,
+        cortesOfWeek,
+        cortesOfMonth,
+        billedToday,
+        billedWeek,
+        billedMonth,
         setCortes,
         deleteCorte,
     }
