@@ -4,11 +4,13 @@ import * as Styled from '../style'
 import { User } from '@/models/user';
 import { useUser } from '@/hooks/useUser';
 import { Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 export default function BarberCard({ barber }: { barber: User | any }) {
     const [cortesByDay, setCortesByDay] = useState([])
     const [cortesByMonth, setCortesByMonth] = useState([])
     const { filterCortes } = useUser();
+    const router = useRouter();
 
     useEffect(() => {
         fetchFilterCortes()
@@ -67,7 +69,7 @@ export default function BarberCard({ barber }: { barber: User | any }) {
                 </Styled.CenterContainer>
                 <br />
                 <Styled.EndContainer>
-                    <Button variant='contained' color='error'>Ver informacion de cortes</Button>
+                    <Button onClick={() => router.push(`/dashboard/barberos/${barber.id}`)} variant='contained' color='error'>Ver informacion de cortes</Button>
                 </Styled.EndContainer>
             </Styled.BarberCard>
         </>

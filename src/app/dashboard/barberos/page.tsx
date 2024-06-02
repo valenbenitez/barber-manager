@@ -37,7 +37,7 @@ export default function Barbers() {
                 <Styled.ItemContainer>
                     <Styled.EndContainer>
                         <Link href={'/dashboard/registrar-barbero'} >
-                            <Button variant='contained' color='warning'>Registrar barbero</Button>
+                            <Button variant='contained' color='warning'>Registrar personal</Button>
                         </Link>
                     </Styled.EndContainer>
                     {barbers.length > 0 && barbers.map((barber: any) => (

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 import { useCortes } from '@/hooks/useCortes';
-import { Card, Space, Typography, Tag } from "antd";
+import { Card, Space, Typography, Tag, Input } from "antd";
 import { useSales } from '@/hooks/useSales';
 
 const { Text, Title } = Typography;
@@ -14,10 +14,11 @@ const { Text, Title } = Typography;
 export default function Facturacion() {
     const [isLoading, setIsLoading] = useState(true);
     const [firstTime, setFirstTime] = useState(true)
-    const { isOwner, getUser } = useUser();
+    const [filterDate, setFilterDate] = useState<any>('');
+    const { getUser } = useUser();
     const { authState } = useAuth();
-    const { getCortes, cortesOfDay, cortesOfWeek, cortesOfMonth, billedToday, billedWeek, billedMonth } = useCortes();
-    const { getSales, salesOfDay, salesOfWeek, salesOfMonth, salesTotalToday, salesTotalWeek, salesTotalMonth } = useSales();
+    const { filterCortesByDate, cortesOfDay, cortesOfWeek, cortesOfMonth, billedToday, billedWeek, billedMonth } = useCortes();
+    const { getSales, salesTotalToday, salesTotalWeek, salesTotalMonth } = useSales();
     const isMobileScreen = useMediaQuery('(max-width:1199px)');
     const router = useRouter();
 
@@ -26,7 +27,7 @@ export default function Facturacion() {
     }, [])
 
     const fetchUser = () => {
-        getCortes()
+        filterCortesByDate()
         getSales()
         setFirstTime(false)
         getUser(authState?.user?.id).then((user) => {
@@ -46,6 +47,11 @@ export default function Facturacion() {
         }).format(number);
     }
 
+    const handleDateChange = async (e) => {
+        setFilterDate(e.target.value);
+        await filterCortesByDate(e.target.value);
+    };
+
     if (isLoading) {
         return (
             <Styled.Container>
@@ -60,6 +66,8 @@ export default function Facturacion() {
                 <Styled.StartContainer>
                     <Styled.ColumnContainer>
                         <h2>Facturacion</h2>
+                        <br />
+                        <Input style={{ maxWidth: 160 }} type="date" value={filterDate} onChange={handleDateChange} />
                         <br />
                         <Space direction={isMobileScreen ? "vertical" : "horizontal"} align='start' size={16}>
                             <Card title="Cortes" style={{ width: '100%', minWidth: 300 }}>

@@ -65,12 +65,12 @@ export const useSalesProvider = () => {
         const salesEsteMes = sales.filter(corte => isThisMonth(new Date(corte.saleDate.seconds * 1000)));
         salesHoy.forEach((op) => {
             const price = op?.totalSale
-            const cleanedString = price.replace(/\./g, '');
+            const cleanedString = typeof price === 'string' ? price.replace(/\./g, '') : price;
             totalOfDay = totalOfDay + Number(cleanedString)
         });
         salesEstaSemana.forEach((op) => {
             const price = op?.totalSale
-            const cleanedString = price.replace(/\./g, '');
+            const cleanedString = typeof price === 'string' ? price.replace(/\./g, '') : price;
             totalOfWeek = totalOfWeek + Number(cleanedString)
         });
         salesEsteMes.forEach((op) => {
