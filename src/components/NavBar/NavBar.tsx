@@ -78,7 +78,7 @@ function NavBar() {
                     </Link>
                     <BottomNavigationAction
                         showLabel
-                        label={<label style={labelStyle}>Nuevo corte</label>}
+                        label={<label style={labelStyle}>Nuevo servicio</label>}
                         sx={{ marginTop: '18px' }}
                     />
                     {user?.role === 'owner' && (

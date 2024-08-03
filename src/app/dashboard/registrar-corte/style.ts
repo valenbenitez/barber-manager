@@ -16,6 +16,9 @@ export const BetweenContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  @media (max-width: 1199px) {
+    width: 100%;
+  }
 `
 
 export const Container = styled.div`
@@ -62,15 +65,15 @@ export const InputLogin = styled.input`
 `
 export const FormSelect = styled.select<any>`
   width: 62%;
+  min-width: 150px;
   border-radius: 16px;
-  border: 1px solid #ffffff80;
-  border: none;
   padding: 14px;
+  border: 1px solid #ffffff80;
   font-family: Montserrat;
   font-weight: 400;
   font-size: 16px;
-  line-height: 22px;
   outline: none;
+  background-color: #fff;
   @media (max-width: 1199px) {
     width: 100%;
   }

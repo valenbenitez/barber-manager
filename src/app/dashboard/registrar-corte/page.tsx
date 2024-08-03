@@ -10,8 +10,10 @@ import { initialNewClient, barberExtras, barberServices, bellezaExtras, bellezaS
 import { useParams } from 'next/navigation'
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { useMediaQuery } from "@mui/material";
 
 export default function RegistrarCorte() {
+    const isMobileScreen = useMediaQuery('(max-width:1199px)');
     const [isLoading, setIsLoading] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [newClient, setNewClient] = useState(initialNewClient);
@@ -121,7 +123,7 @@ export default function RegistrarCorte() {
                 <Styled.ColumnContainer>
                     <Styled.ItemContainer>
                         <Styled.Title>Registrar corte</Styled.Title>
-                        <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff' }} size="large">
+                        <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff', width: isMobileScreen ? '100%' : '62%' }} size="large">
                             <Button onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
                             <Button onClick={() => handleServiceChange('peluqueria')} variant="contained" color="warning" disabled={type === 'peluqueria' ? true : false}>PELUQUERIA</Button>
                             <Button onClick={() => handleServiceChange('belleza')} variant="contained" color="secondary" disabled={type === 'belleza' ? true : false}>BELLEZA</Button>

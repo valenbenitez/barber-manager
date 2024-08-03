@@ -14,15 +14,15 @@ import { CenterContainer } from "./barberos/style";
 import EmployeesInfo from "./components/EmployeesInfo";
 import ModalSellProduct from "./products/components/ModalSellProduct";
 import CreateAppointment from "./appointments/components/CreateAppointment";
-
+import NextAppointments from "@/components/NextAppointments";
 //TODO: ARREGLAR BOTONES EN MOBILE
 
 const buttons = [
-  // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
-  { path: '/dashboard/registrar-corte', icon: '/navbar-icons/add.svg', label: 'Registrar corte' },
-  { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
   { path: '/dashboard/appointments', icon: '/navbar-icons/see-appointments.svg', label: 'Ver turnos' },
-  { path: '/dashboard/registrar-cliente', icon: '/navbar-icons/users.svg', label: 'Registrar cliente' },
+  { path: '/dashboard/clientes', icon: '/navbar-icons/add.svg', label: 'Nuevo servicio' },
+  // { path: '/dashboard/clientes', icon: '/navbar-icons/user-list.svg', label: 'Clientes' },
+  // { path: '/dashboard/registrar-cliente', icon: '/navbar-icons/users.svg', label: 'Registrar cliente' },
+  // { path: '/dashboard/registrar-barbero', icon: '/navbar-icons/users.svg', label: 'Registrar barbero' },
   // { path: '/dashboard/barber-view', icon: '/navbar-icons/view.svg', label: 'Vista barbero' },
 ]
 
@@ -71,11 +71,6 @@ function Dashboard() {
             <Button variant="outlined" color="error" onClick={signOutUser}>Cerrar sesion</Button>
             <RowContainer>
               {!modalSellProduct && !drawerCreateAppointment && (
-                <span onClick={() => setDrawerCreateAppointment(true)}>
-                  <ItemColumn icon={'/navbar-icons/appointment.svg'} label={'Registrar turno'} />
-                </span>
-              )}
-              {!modalSellProduct && !drawerCreateAppointment && (
                 <>
                   {buttons?.length && buttons.map(button => (
                     <Link legacyBehavior href={button.path} key={button.path}>
@@ -87,14 +82,17 @@ function Dashboard() {
                 </>
               )}
               {!modalSellProduct && !drawerCreateAppointment && (
+                <span onClick={() => setDrawerCreateAppointment(true)}>
+                  <ItemColumn icon={'/navbar-icons/appointment.svg'} label={'Registrar turno'} />
+                </span>
+              )}
+              {!modalSellProduct && !drawerCreateAppointment && (
                 <span onClick={() => setModalSellProduct(true)} >
                   <ItemColumn icon={'/navbar-icons/products.svg'} label={'Registrar venta'} />
                 </span>
               )}
             </RowContainer>
-            <EmployeesInfo />
           </ItemContainer>
-          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} ></div>
           <ButtonGroup style={{ padding: '10px', gap: '10px', backgroundColor: '#fff' }} size="large">
             <Button style={{ borderRadius: '12px', padding: '12px' }} onClick={() => handleServiceChange('barberia')} variant="contained" color="primary" disabled={type === 'barberia' ? true : false}>BARBERIA</Button>
             <Button style={{ borderRadius: '12px', padding: '12px' }} onClick={() => handleServiceChange('peluqueria')} variant="contained" color="warning" disabled={type === 'peluqueria' ? true : false}>PELUQUERIA</Button>
@@ -102,6 +100,10 @@ function Dashboard() {
           </ButtonGroup>
           <ItemContainer>
             {componentsOfInfo}
+          </ItemContainer>
+          <br />
+          <ItemContainer>
+            <NextAppointments />
           </ItemContainer>
           <CreateAppointment open={drawerCreateAppointment} setOpen={setDrawerCreateAppointment} />
           <ModalSellProduct isModalOpen={modalSellProduct} setIsModalOpen={setModalSellProduct} />
@@ -117,7 +119,7 @@ function Dashboard() {
 
 const ItemColumn = ({ icon, label }) => (
   <ColumnContainer>
-    <Fab size="small" sx={SectionButtons}>
+    <Fab size="large" sx={SectionButtons}>
       <Image alt="" src={icon} height={20} width={20} />
     </Fab>
     <Label>{label}</Label>

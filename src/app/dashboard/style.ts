@@ -64,7 +64,12 @@ export const Subtitle = styled.label`
 
 export const Label = styled.label`
   font-family: Montserrat;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    font-weight: 400;
+  }
 `
 export const ClientsContainer = styled.div`
   width: 100%;
