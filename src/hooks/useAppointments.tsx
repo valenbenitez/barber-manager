@@ -55,6 +55,22 @@ export const useAppointmentsProvider = () => {
         return products
     }
 
+    const getDatesBooked = async () => {
+        const appointments: any = [];
+        const q = query(collection(db, 'appointments'));
+        try {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const date = data.appointmentDate.toDate();
+                appointments.push(date);
+            });
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        }
+        return appointments;
+    }
+
     const getAppointmentById = async (productId: string) => {
         return getDoc(doc(db, 'appointments', productId)).then(productData => {
             if (productData.exists()) {
@@ -93,5 +109,6 @@ export const useAppointmentsProvider = () => {
         getAppointments,
         deleteAppointment,
         updateAppointment,
+        getDatesBooked,
     }
 }
